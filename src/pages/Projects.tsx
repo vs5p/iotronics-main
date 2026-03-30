@@ -3,7 +3,7 @@ import { Lightbulb, ExternalLink, Github, Home, Thermometer, Car, Heart, Cpu, Wi
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
-import { FloatingParticles, CircuitBackground } from "@/components/LiveElements";
+import OrangeAtmosphere from "@/components/OrangeAtmosphere";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -86,8 +86,7 @@ const Projects = () => {
     <div className="min-h-screen">
       <HangingBulb isOn={!isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
       <Navigation />
-      <FloatingParticles />
-      <CircuitBackground />
+      <OrangeAtmosphere variant="diagonal-bars" />
 
       <main className="relative pt-20">
         {/* Hero Section */}

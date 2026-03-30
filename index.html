@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <title>IoTRONICS</title>
     <meta name="description" content="The Premier IoT Club" />
     <meta name="author" content="IoTRONICS" />
@@ -19,6 +19,63 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap&subset=latin,latin-ext,devanagari,cyrillic,cyrillic-ext,hiragana,katakana" rel="stylesheet" />
+
+    <!-- Lenis Smooth Scroll (single CDN load) -->
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" crossorigin="anonymous" integrity="sha384-O55L/6rhHr9CFvrxqv5luxOCcmVaBmETbZbJDP+Do8T0pztTACsFBD/IXCNkj7DV"></script>
+    <!-- GSAP + ScrollTrigger (single CDN load) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"></script>
+
+    <style>
+      /* HORIZONTAL EVENT SCROLL */
+      .events-section {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .events-track {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 24px;
+        width: max-content;
+        padding: 40px 80px 40px 80px;
+        will-change: transform;
+      }
+
+      /* Style each event card */
+      .events-track > * {
+        min-width: 320px;
+        max-width: 360px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 107, 53, 0.2);
+        border-radius: 16px;
+        padding: 32px 28px;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        cursor: default;
+      }
+
+      .events-track > *:hover {
+        box-shadow: 0 0 28px rgba(255, 107, 53, 0.25);
+        border-color: rgba(255, 107, 53, 0.5);
+      }
+
+      /* Mobile fallback */
+      @media (max-width: 768px) {
+        .events-track {
+          overflow-x: auto;
+          width: 100%;
+          -webkit-overflow-scrolling: touch;
+          scroll-snap-type: x mandatory;
+          padding: 24px 20px;
+        }
+        .events-track > * {
+          scroll-snap-align: start;
+          min-width: 280px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -34,9 +91,56 @@
       <div id="root"></div>
     </div>
 
-    <!-- GSAP Library (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
+    <!-- React app entry point -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!--
+      DOM-targeting scripts: only the horizontal event scroll remains here.
+      GSAP panel animations are handled by useImmersiveScroll.ts (React).
+      Particle system is handled by ParticleCanvas.tsx (React).
+    -->
+    <script>
+      (function () {
+        'use strict';
+
+        function onReactReady(callback) {
+          var root = document.getElementById('root');
+          if (!root) return;
+          if (root.children.length > 0) { callback(); return; }
+          var observer = new MutationObserver(function (mutations, obs) {
+            if (root.children.length > 0) {
+              obs.disconnect();
+              setTimeout(callback, 500);
+            }
+          });
+          observer.observe(root, { childList: true });
+        }
+
+        onReactReady(function () {
+          // ========================================
+          // HORIZONTAL EVENT SCROLL (kept — no React equivalent)
+          // ========================================
+          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+          gsap.registerPlugin(ScrollTrigger);
+
+          var eventsTrack = document.querySelector('.events-track');
+          if (eventsTrack && window.innerWidth > 768) {
+            gsap.to(eventsTrack, {
+              x: function () { return -(eventsTrack.scrollWidth - window.innerWidth + 160); },
+              ease: 'none',
+              scrollTrigger: {
+                trigger: eventsTrack.parentElement,
+                start: 'top top',
+                end: function () { return '+=' + (eventsTrack.scrollWidth - window.innerWidth + 160); },
+                scrub: 1,
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              }
+            });
+          }
+        }); // end onReactReady
+      })();
+    </script>
   </body>
 </html>

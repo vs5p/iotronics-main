@@ -19,7 +19,7 @@ const REVEAL_RADIUS = 250; // Flashlight reveal radius
 const MOUSE_RADIUS = 150; // Mouse interaction radius
 const FRICTION = 0.95; // Velocity damping
 const RETURN_FORCE = 0.01; // Elastic return to home position
-const GLOBAL_DRIFT = 0.02; // Tiny upward drift
+
 
 const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
 
@@ -117,8 +117,7 @@ const ParticleCanvas = () => {
           particle.ay += (particle.baseY - particle.y) * RETURN_FORCE;
         }
 
-        // Global upward drift
-        particle.ay -= GLOBAL_DRIFT;
+
 
         // Apply acceleration to velocity
         particle.vx += particle.ax;

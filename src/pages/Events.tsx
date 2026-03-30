@@ -3,7 +3,7 @@ import { Calendar, Clock, Zap } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
-import { FloatingParticles, CircuitBackground } from "@/components/LiveElements";
+import OrangeAtmosphere from "@/components/OrangeAtmosphere";
 import { useState, useEffect } from "react";
 
 const Events = () => {
@@ -21,8 +21,7 @@ const Events = () => {
     <div className="min-h-screen">
       <HangingBulb isOn={!isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
       <Navigation />
-      <FloatingParticles />
-      <CircuitBackground />
+      <OrangeAtmosphere variant="horizon-glow" />
 
       <main className="relative pt-20 min-h-[80vh] flex items-center">
         <div className="container mx-auto px-4 relative z-10">

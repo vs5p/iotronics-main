@@ -3,7 +3,7 @@ import { Trophy, Medal, Award, Star, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
-import { FloatingParticles, CircuitBackground } from "@/components/LiveElements";
+import OrangeAtmosphere from "@/components/OrangeAtmosphere";
 import { useState, useEffect } from "react";
 
 const achievements = [
@@ -103,8 +103,7 @@ const Achievements = () => {
     <div className="min-h-screen">
       <HangingBulb isOn={!isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
       <Navigation />
-      <FloatingParticles />
-      <CircuitBackground />
+      <OrangeAtmosphere variant="spotlight" />
 
       <main className="relative pt-20">
         {/* Hero Section */}

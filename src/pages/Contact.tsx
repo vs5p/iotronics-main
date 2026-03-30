@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
-import { FloatingParticles, CircuitBackground } from "@/components/LiveElements";
+import OrangeAtmosphere from "@/components/OrangeAtmosphere";
 
 const Contact = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -32,8 +32,7 @@ const Contact = () => {
     <div className="min-h-screen">
       <HangingBulb isOn={!isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
       <Navigation />
-      <FloatingParticles />
-      <CircuitBackground />
+      <OrangeAtmosphere variant="corner-flares" />
 
       <main className="relative pt-20">
         {/* Hero Section */}

@@ -418,3 +418,533 @@
   width: 100%;
   height: 100%;
 }
+
+/* ============================================
+   IMMERSIVE SCROLL — Panel System
+   ============================================ */
+
+.imm-panels-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Each panel is a fullscreen section */
+.imm-panel {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Content wrapper — animated by GSAP ScrollTrigger */
+.imm-panel-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* ---- Ambient floating glow orbs ---- */
+.imm-panel-ambient {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+  opacity: 0.7;
+  animation: immAmbientFloat 12s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes immAmbientFloat {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(20px, -30px) scale(1.08); opacity: 0.8; }
+  100% { transform: translate(-15px, 15px) scale(0.95); opacity: 0.6; }
+}
+
+/* ---- Gradient overlay per panel ---- */
+.imm-panel-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0; /* faded in by GSAP */
+}
+
+/* ---- Top/bottom fade zones for inter-panel blending ---- */
+.imm-panel-fade-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, #0a0a0a 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.imm-panel-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(0deg, #0a0a0a 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- Grid background for About panel (enhanced with depth) ---- */
+.imm-grid-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(#FF6B35 1px, transparent 1px),
+    linear-gradient(90deg, #FF6B35 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+}
+
+/* ---- Orange animated underline ---- */
+.imm-underline-orange::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #FF6B35, #FFD700, #FF6B35);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  animation: immUnderlineShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes immUnderlineShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ---- IoT Dashboard Cards (glassmorphism) ---- */
+.imm-iot-card {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.imm-iot-card:hover {
+  border-color: rgba(255, 107, 53, 0.35);
+  box-shadow:
+    0 0 20px rgba(255, 107, 53, 0.15),
+    0 0 60px rgba(255, 107, 53, 0.08);
+}
+
+.imm-iot-card-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.imm-iot-card:hover .imm-iot-card-glow {
+  opacity: 1;
+}
+
+/* ---- Event cards horizontal scroll ---- */
+.imm-events-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 2rem 2rem;
+  width: 100%;
+  max-width: 64rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.imm-events-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.imm-event-card {
+  min-width: 280px;
+  max-width: 320px;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: border-color 0.3s ease;
+  min-height: 200px;
+}
+
+.imm-event-card:hover {
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+/* ---- CTA Radial Glow ---- */
+.imm-cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  animation: immCtaPulse 4s ease-in-out infinite;
+}
+
+@keyframes immCtaPulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ---- CTA Button ---- */
+.imm-cta-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  border-radius: 0.75rem;
+  background: #FF6B35;
+  color: #0a0a0a;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(255, 107, 53, 0.4),
+    0 0 60px rgba(255, 107, 53, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.imm-cta-button:hover {
+  box-shadow:
+    0 0 30px rgba(255, 107, 53, 0.6),
+    0 0 80px rgba(255, 107, 53, 0.25),
+    0 0 120px rgba(255, 107, 53, 0.1);
+}
+
+/* ---- Responsive Overrides ---- */
+@media (max-width: 640px) {
+  .imm-panel {
+    min-height: 100svh;
+    padding: 2rem 0;
+  }
+
+  .imm-events-scroll {
+    padding: 0.5rem 1rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .imm-event-card {
+    min-width: 240px;
+    min-height: 180px;
+  }
+
+  .imm-cta-glow {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+/* ============================================
+   TEAM PAGE — Domain Deck & Members
+   ============================================ */
+
+/* ---- Domain Deck Grid ---- */
+.domain-deck-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+@media (max-width: 1024px) {
+  .domain-deck-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .domain-deck-grid { grid-template-columns: 1fr; max-width: 320px; }
+}
+
+/* ---- Domain Card Container ---- */
+.domain-card-container {
+  cursor: pointer;
+  height: 340px;
+}
+
+/* ---- Card Flipper (3D rotation wrapper) ---- */
+.domain-card-flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* ---- Shared face styles ---- */
+.domain-card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+}
+
+/* ---- Back face (idle — glossy black) ---- */
+.domain-card-back {
+  background: linear-gradient(145deg, #0d0d0d 0%, #000000 50%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 107, 0, 0.15);
+}
+
+.domain-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  pointer-events: none;
+}
+
+.domain-card-icon {
+  color: #FF6B00;
+  margin-bottom: 1.25rem;
+  filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.5));
+}
+
+.domain-card-label {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  text-align: center;
+}
+
+/* ---- Front face (hover — white with orange inner glow) ---- */
+.domain-card-front {
+  background: #ffffff;
+  border: 2px solid #FF6B00;
+  box-shadow: inset 0 0 40px rgba(255, 107, 0, 0.12);
+  transform: rotateY(180deg);
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1.75rem 1.5rem;
+}
+
+.domain-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #FF6B00;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.domain-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.domain-card-list li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #222;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.domain-card-bullet {
+  color: #FF6B00;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.domain-card-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #FF6B00;
+  letter-spacing: 0.1em;
+  margin-top: auto;
+  padding-top: 1rem;
+  opacity: 0.7;
+}
+
+/* ---- Back button ---- */
+.domain-back-btn {
+  position: fixed;
+  top: 5rem;
+  left: 1.5rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FF6B00;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.domain-back-btn:hover {
+  border-color: #FF6B00;
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+}
+
+/* ---- Member Grid ---- */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---- Glassmorphism Member Card ---- */
+.member-glass-card {
+  position: relative;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: default;
+  transition: border-color 0.3s ease;
+}
+
+.member-glass-card:hover {
+  border-color: rgba(255, 107, 0, 0.35);
+}
+
+/* Orange diagonal gradient */
+.member-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+/* Avatar circle */
+.member-avatar {
+  position: relative;
+  z-index: 1;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  border: 2px solid rgba(255, 107, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease, filter 0.3s ease;
+  filter: grayscale(100%);
+}
+
+.member-avatar-active {
+  filter: grayscale(0%);
+  border-color: #FF6B00;
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+}
+
+.member-avatar-text {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #FF6B00;
+}
+
+.member-name {
+  position: relative;
+  z-index: 1;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.member-role {
+  position: relative;
+  z-index: 1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #FF6B00;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.member-socials {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.member-social-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.member-social-icon:hover {
+  color: #FF6B00;
+  border-color: rgba(255, 107, 0, 0.4);
+}
+
