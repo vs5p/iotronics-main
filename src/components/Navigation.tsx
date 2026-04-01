@@ -62,7 +62,7 @@ const Navigation = () => {
       transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
     >
       {/* Circuit board background */}
-      <div className="absolute inset-0 overflow-hidden opacity-30">
+      <div className="absolute inset-0 overflow-hidden opacity-30 hidden sm:block">
         <svg className="w-full h-full" preserveAspectRatio="none">
           <line x1="0" y1="50%" x2="100%" y2="50%" stroke="hsl(var(--circuit-trace))" strokeWidth="1" />
           

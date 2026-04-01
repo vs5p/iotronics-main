@@ -1,20 +1,77 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown, Thermometer, Droplets, Activity, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Thermometer, Droplets, Wind } from 'lucide-react';
 import useImmersiveScroll from '@/hooks/useImmersiveScroll';
 
 /* ============================================================
-   IoT Dashboard — fake pulsing sensor values
+   Quote Carousel
    ============================================================ */
-const usePulsingValue = (base: number, range: number, interval = 2000) => {
-  const [value, setValue] = useState(base);
+const quotes = [
+  "NMIT's premier IoT tech society — connecting minds, building the future at the intersection of electronics, software, and intelligence.",
+  "Innovation is seeing what everybody has seen and thinking what nobody has thought.",
+  "The advance of technology is based on making it fit in so that you don't really even notice it, so it's part of everyday life.",
+  "Empowering students to build the future, one sensor at a time."
+];
+
+const QuoteCarousel = () => {
+  const [index, setIndex] = useState(0);
+
   useEffect(() => {
+    const interval = setInterval(() => setIndex((prev) => (prev + 1) % quotes.length), 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="h-24 md:h-20 mt-4 mb-8 flex items-center justify-center max-w-xl mx-auto overflow-hidden relative w-full">
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={index}
+          className="font-rajdhani text-base md:text-lg text-gray-400 leading-relaxed absolute w-full text-center"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.6 }}
+        >
+          {quotes[index]}
+        </motion.p>
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ============================================================
+   IoT Dashboard — live API values + fake sensor pulsing
+   ============================================================ */
+const useWeatherData = () => {
+  const [data, setData] = useState({ temp: 24.5, humidity: 62, wind: 3.5 });
+  useEffect(() => {
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=13.1007&longitude=77.5963&current=temperature_2m,relative_humidity_2m,wind_speed_10m')
+      .then(res => res.json())
+      .then(d => {
+        if (d.current) {
+          setData({
+            temp: d.current.temperature_2m,
+            humidity: d.current.relative_humidity_2m,
+            wind: d.current.wind_speed_10m,
+          });
+        }
+      })
+      .catch(console.error);
+  }, []);
+  return data;
+};
+
+const useLivePulsingValue = (liveValue: number, fluctuation: number, interval = 2000) => {
+  const [val, setVal] = useState(liveValue);
+  useEffect(() => {
+    // Reset to base live value initially
+    setVal(liveValue);
     const id = setInterval(() => {
-      setValue(base + (Math.random() - 0.5) * range);
+      setVal(liveValue + (Math.random() - 0.5) * fluctuation);
     }, interval);
     return () => clearInterval(id);
-  }, [base, range, interval]);
-  return value.toFixed(1);
+  }, [liveValue, fluctuation, interval]);
+  return val.toFixed(1);
 };
 
 const IoTCard = ({
@@ -32,7 +89,7 @@ const IoTCard = ({
   range: number;
   color: string;
 }) => {
-  const val = usePulsingValue(base, range, 1800 + Math.random() * 800);
+  const val = useLivePulsingValue(base, range, 1800 + Math.random() * 800);
 
   return (
     <div className="imm-iot-card group">
@@ -123,6 +180,7 @@ const PanelFade = ({ position }: { position: 'top' | 'bottom' }) => (
 const ImmersiveHome = () => {
   // Initialize GSAP ScrollTrigger + Lenis
   useImmersiveScroll();
+  const weatherData = useWeatherData();
 
   return (
     <div className="imm-panels-container">
@@ -131,7 +189,7 @@ const ImmersiveHome = () => {
         {/* No canvas here — ParticleCanvas.tsx (rendered in Home.tsx) covers the full viewport */}
         <div className="imm-panel-content flex flex-col items-center text-center px-4" style={{ position: 'relative', zIndex: 1 }}>
           {/* Main heading */}
-          <h1 className="font-orbitron text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 text-white">
+          <h1 className="font-orbitron text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 text-white">
             IoT<span className="text-[#FF6B35]">RONICS</span>
           </h1>
 
@@ -143,10 +201,8 @@ const ImmersiveHome = () => {
             </span>
           </p>
 
-          <p className="font-rajdhani text-base text-gray-500 max-w-xl mt-4 mb-12 leading-relaxed">
-            NMIT's premier IoT tech society — connecting minds, building the future
-            at the intersection of electronics, software, and intelligence.
-          </p>
+          {/* Animated Quotes */}
+          <QuoteCarousel />
 
           {/* Scroll indicator */}
           <motion.div
@@ -223,24 +279,24 @@ const ImmersiveHome = () => {
               icon={<Thermometer size={20} className="text-[#FF6B35]" />}
               label="Temperature"
               unit="°C"
-              base={24.5}
-              range={4}
+              base={weatherData.temp}
+              range={0.4}
               color="#FF6B35"
             />
             <IoTCard
               icon={<Droplets size={20} className="text-[#00D4FF]" />}
               label="Humidity"
               unit="%"
-              base={62}
-              range={10}
+              base={weatherData.humidity}
+              range={1.2}
               color="#00D4FF"
             />
             <IoTCard
-              icon={<Activity size={20} className="text-[#4ADE80]" />}
-              label="Motion"
-              unit="m/s²"
-              base={0.8}
-              range={1.2}
+              icon={<Wind size={20} className="text-[#4ADE80]" />}
+              label="Wind Speed"
+              unit="km/h"
+              base={weatherData.wind}
+              range={1.5}
               color="#4ADE80"
             />
           </div>
@@ -257,7 +313,7 @@ const ImmersiveHome = () => {
         <PanelFade position="bottom" />
 
         <div className="imm-panel-content flex flex-col items-center px-4 w-full">
-          <h2 className="font-orbitron text-4xl sm:text-5xl font-bold text-white mb-12 text-center">
+          <h2 className="font-orbitron text-4xl sm:text-5xl font-bold text-white mb-6 sm:mb-12 text-center">
             What's <span className="text-[#FF6B35]">Coming</span>
           </h2>
 
@@ -267,7 +323,7 @@ const ImmersiveHome = () => {
               <motion.div
                 key={i}
                 className="imm-event-card flex-shrink-0"
-                whileHover={{ y: -8, scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
                 {/* Decorative top stripe */}
@@ -294,46 +350,7 @@ const ImmersiveHome = () => {
         </div>
       </section>
 
-      {/* ==================== PANEL 5 — JOIN CTA ==================== */}
-      <section className="imm-panel" id="imm-join">
-        {/* Rich decorative backgrounds */}
-        <PanelFade position="top" />
-        <AmbientOrb color="rgba(255, 107, 53, 0.10)" size={800} top="30%" left="30%" delay={0} />
-        <AmbientOrb color="rgba(255, 107, 53, 0.06)" size={500} top="-20%" left="-10%" delay={3} />
-        <AmbientOrb color="rgba(255, 215, 0, 0.04)" size={400} top="70%" left="80%" delay={6} />
-        <div className="imm-panel-gradient" style={{ background: 'radial-gradient(ellipse at center 60%, rgba(255, 107, 53, 0.04) 0%, transparent 70%)' }} />
 
-        {/* Radial orange glow (original CTA effect) */}
-        <div className="imm-cta-glow" />
-
-        <div className="imm-panel-content flex flex-col items-center text-center px-4">
-          <h2 className="font-orbitron text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            Ready to Build
-            <br />
-            the <span className="text-[#FF6B35]">Future</span>?
-          </h2>
-
-          <p className="font-rajdhani text-lg text-gray-400 max-w-lg mb-12">
-            Join a community of makers, engineers, and innovators shaping the world
-            through the Internet of Things.
-          </p>
-
-          <motion.a
-            href="/contact"
-            className="imm-cta-button group"
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <span className="font-orbitron font-bold text-lg tracking-wider">
-              Join IoTRONICS
-            </span>
-            <ArrowRight
-              size={20}
-              className="ml-2 group-hover:translate-x-1 transition-transform"
-            />
-          </motion.a>
-        </div>
-      </section>
     </div>
   );
 };

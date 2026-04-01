@@ -45,7 +45,7 @@ const Footer = () => {
             >
               <Heart className="w-4 h-4 text-primary fill-primary" />
             </motion.span>
-            <span>by IOTRONICS © 2024</span>
+            <span>By Iotronics</span>
           </div>
         </div>
       </div>

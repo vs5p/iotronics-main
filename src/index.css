@@ -159,6 +159,11 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -401,7 +406,7 @@
   text-transform: capitalize;
   letter-spacing: 2px;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(0);
   white-space: nowrap;
   will-change: opacity, transform;
 }
@@ -417,6 +422,21 @@
 #root {
   width: 100%;
   height: 100%;
+}
+
+/* ============================================
+   GLOBAL BODY GRADIENT
+   ============================================ */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15vh;
+  background: linear-gradient(to top, rgba(255, 107, 53, 0.08), transparent);
+  pointer-events: none;
+  z-index: 1000;
 }
 
 /* ============================================
@@ -564,7 +584,8 @@
 }
 
 /* ---- Event cards horizontal scroll ---- */
-.imm-events-scroll {
+.imm-events-scroll,
+.events-track {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
@@ -577,7 +598,8 @@
   scrollbar-width: none;
 }
 
-.imm-events-scroll::-webkit-scrollbar {
+.imm-events-scroll::-webkit-scrollbar,
+.events-track::-webkit-scrollbar {
   display: none;
 }
 
@@ -651,9 +673,44 @@
     padding: 2rem 0;
   }
 
-  .imm-events-scroll {
+  /* Pull about panel content up — less dead space above heading */
+  #imm-about {
+    align-items: flex-start;
+    padding-top: 4rem;
+    min-height: auto;
+    padding-bottom: 4rem;
+  }
+
+  /* Keep hero centered on mobile */
+  #imm-hero .imm-panel-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  #imm-about .imm-panel-content {
+    padding-top: 0;
+  }
+
+  .imm-events-scroll,
+  .events-track {
     padding: 0.5rem 1rem 1.5rem;
     gap: 1rem;
+  }
+
+  /* Collapse events panel height on mobile — no giant black gaps */
+  #imm-events {
+    min-height: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    align-items: flex-start;
+  }
+
+  #imm-events .imm-panel-content {
+    padding-top: 0;
   }
 
   .imm-event-card {
@@ -946,5 +1003,31 @@
 .member-social-icon:hover {
   color: #FF6B00;
   border-color: rgba(255, 107, 0, 0.4);
+}
+
+/* ============================================================
+   GSAP SCROLLTRIGGER ANIMATION WRAPPERS
+   ============================================================ */
+
+.domains-pin-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: visible;
+  padding: 4rem 0;
+}
+
+.card-anim-wrapper {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  perspective: 1000px;
+  will-change: transform, opacity;
+  z-index: 10;
 }
 

@@ -63,16 +63,19 @@
 
       /* Mobile fallback */
       @media (max-width: 768px) {
+        .events-section {
+          overflow: visible;
+        }
         .events-track {
-          overflow-x: auto;
+          flex-direction: column;
+          align-items: center;
           width: 100%;
-          -webkit-overflow-scrolling: touch;
-          scroll-snap-type: x mandatory;
           padding: 24px 20px;
         }
         .events-track > * {
-          scroll-snap-align: start;
-          min-width: 280px;
+          width: 100%;
+          max-width: 100%;
+          min-width: unset;
         }
       }
     </style>
@@ -82,7 +85,7 @@
     <!-- Preloader Container -->
     <div id="preloader" class="preloader">
       <div class="word-container">
-        <span id="loader-text">Hello</span>
+        <span id="loader-text"></span>
       </div>
     </div>
 

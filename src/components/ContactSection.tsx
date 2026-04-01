@@ -26,7 +26,7 @@ const ContactSection = () => {
     }
 
     // Send email via mailto
-    const mailtoLink = `mailto:iotronics@college.edu?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+    const mailtoLink = `mailto:iotronics@nmit.ac.in?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
     )}`;
     window.location.href = mailtoLink;
@@ -106,7 +106,7 @@ const ContactSection = () => {
             <div className="space-y-6 mb-12">
               {[
                 { icon: <MapPin size={24} />, label: "Location", value: "Engineering Block, Room 302" },
-                { icon: <Mail size={24} />, label: "Email", value: "iotronics@college.edu" },
+                { icon: <Mail size={24} />, label: "Email", value: "iotronics@nmit.ac.in" },
                 { icon: <Phone size={24} />, label: "Phone", value: "+1 (234) 567-8900" },
               ].map((item, i) => (
                 <motion.div

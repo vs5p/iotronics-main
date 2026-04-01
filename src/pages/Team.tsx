@@ -3,7 +3,13 @@ import { Linkedin, Github, ArrowLeft, Shield, Code, Cpu, Camera } from 'lucide-r
 import Navigation from '@/components/Navigation';
 import PageFooter from '@/components/PageFooter';
 import OrangeAtmosphere from '@/components/OrangeAtmosphere';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
+import JoinTeamSection from '@/components/JoinTeamSection';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
    DATA
@@ -125,72 +131,75 @@ const DomainCard = ({
   domain,
   index,
   onSelect,
+  activeMobileIndex,
 }: {
   domain: Domain;
   index: number;
   onSelect: (id: string) => void;
+  activeMobileIndex: number | null;
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // On touch devices, flip when this card is the active (most centered) one
+  useEffect(() => {
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    if (!isTouch) return;
+    setIsFlipped(activeMobileIndex === index);
+  }, [activeMobileIndex, index]);
 
   return (
-    <motion.div
-      className="domain-card-container"
-      initial={{ scale: 0, opacity: 0, x: 0, y: 0 }}
-      animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-      transition={{
-        type: 'spring',
-        stiffness: 400,
-        damping: 20,
-        mass: 1,
-        delay: 0.15 * index,
-      }}
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
-      onClick={() => onSelect(domain.id)}
-      style={{ perspective: 1000 }}
-    >
-      <motion.div
-        className="domain-card-flipper"
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        style={{ transformStyle: 'preserve-3d' }}
+    <div className="card-anim-wrapper" ref={cardRef}>
+      <div
+        className="domain-card-container w-full h-full"
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
+        onClick={() => onSelect(domain.id)}
+        style={{ perspective: 1000 }}
       >
-        {/* ── BACK FACE (idle — black with logo glow) ── */}
-        <div className="domain-card-face domain-card-back">
-          <motion.div
-            className="domain-card-glow"
-            animate={{
-              boxShadow: [
-                '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
-                '0 0 60px rgba(255,107,0,0.4), inset 0 0 60px rgba(255,107,0,0.1)',
-                '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
-              ],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <div className="domain-card-icon">{domain.icon}</div>
-          <span className="domain-card-label">{domain.label}</span>
-        </div>
+        <motion.div
+          className="domain-card-flipper"
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* ── BACK FACE (idle — black with logo glow) ── */}
+          <div className="domain-card-face domain-card-back">
+            <motion.div
+              className="domain-card-glow"
+              animate={{
+                boxShadow: [
+                  '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
+                  '0 0 60px rgba(255,107,0,0.4), inset 0 0 60px rgba(255,107,0,0.1)',
+                  '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
+                ],
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="domain-card-icon">{domain.icon}</div>
+            <span className="domain-card-label">{domain.label}</span>
+          </div>
 
-        {/* ── FRONT FACE (hover — white with responsibilities) ── */}
-        <div className="domain-card-face domain-card-front">
-          <span className="domain-card-tag">[{domain.tag}]</span>
-          <ul className="domain-card-list">
-            {domain.responsibilities.map((item, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={isFlipped ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                transition={{ delay: 0.3 + i * 0.06, duration: 0.3 }}
-              >
-                <span className="domain-card-bullet">›</span> {item}
-              </motion.li>
-            ))}
-          </ul>
-          <span className="domain-card-cta">CLICK TO VIEW TEAM →</span>
-        </div>
-      </motion.div>
-    </motion.div>
+          {/* ── FRONT FACE (hover — white with responsibilities) ── */}
+          <div className="domain-card-face domain-card-front">
+            <span className="domain-card-tag">[{domain.tag}]</span>
+            <ul className="domain-card-list">
+              {domain.responsibilities.map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={isFlipped ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                  transition={{ delay: 0.3 + i * 0.06, duration: 0.3 }}
+                >
+                  <span className="domain-card-bullet">›</span> {item}
+                </motion.li>
+              ))}
+            </ul>
+            <span className="domain-card-cta">CLICK TO VIEW TEAM →</span>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
@@ -300,6 +309,195 @@ const DomainParticles = () => {
 };
 
 /* ============================================================
+   GSAP DOMAIN DECK SECTION
+   ============================================================ */
+const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useState<number | null>(null);
+
+  // On touch devices, find which card is closest to the viewport center on scroll
+  useEffect(() => {
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    if (!isTouch) return;
+
+    const handleScroll = () => {
+      const cards = document.querySelectorAll<HTMLElement>('.card-anim-wrapper');
+      const viewportMid = window.innerHeight / 2;
+      let closestIndex: number | null = null;
+      let closestDist = Infinity;
+
+      cards.forEach((card, i) => {
+        const rect = card.getBoundingClientRect();
+        const cardMid = rect.top + rect.height / 2;
+        const dist = Math.abs(cardMid - viewportMid);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIndex = i;
+        }
+      });
+
+      setActiveMobileIndex(closestIndex);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useGSAP(() => {
+    const cards = gsap.utils.toArray('.card-anim-wrapper');
+    if (!cards.length) return;
+
+    // Responsive setup
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
+      // Phase 1 Setup: Offscreen to the right
+      gsap.set(cards, {
+        x: '100vw',
+        y: 0,
+        rotation: -30,
+        scale: 0.8,
+        opacity: 0
+      });
+
+      // Auto-playing timeline (no scroll reaction)
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      const fanAngles = [-15, -5, 5, 15];
+      const fanYOffsets = [20, 0, 0, 20];
+
+      // The Fan Phase: cluster at the center like playing cards
+      tl.to(cards, {
+        x: (i) => `calc(${(1.5 - i as number) * 100}% + ${(1.5 - i as number) * 24}px)`,
+        y: (i) => fanYOffsets[i],
+        rotation: (i) => fanAngles[i],
+        scale: 0.9,
+        opacity: 1,
+        duration: 1.5,
+        stagger: 0.1,
+        ease: 'power2.out',
+      });
+
+      // Settle Phase: drop perfectly into the grid positions
+      tl.to(cards, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 1.5,
+        ease: 'power3.inOut',
+      }, "+=0.5");
+
+      // Curve Phase: slow deviation outwards forming an arch
+      tl.to(cards, {
+        y: (i) => [-60, 20, 20, -60][i as number],
+        x: (i) => [-60, -20, 20, 60][i as number],
+        rotation: (i) => [-20, -5, 5, 20][i as number],
+        scale: 0.9,
+        duration: 2.0,
+        ease: 'power2.inOut',
+      }, "+=0.5");
+    });
+
+    mm.add("(max-width: 1023px)", () => {
+      // Mobile sequence setup (Start offscreen at the bottom)
+      gsap.set(cards, { 
+        y: '50vh', 
+        rotation: (i) => [-20, 20, -15, 15][i],
+        scale: 0.8,
+        opacity: 0 
+      });
+
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      // The Fan Phase (Mobile version): fly in to a messy, slightly zigzagged stack
+      tl.to(cards, {
+        y: 0,
+        x: (i) => [15, -15, 10, -10][i],
+        rotation: (i) => [6, -6, 4, -4][i],
+        scale: 0.95,
+        opacity: 1,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power3.out',
+      });
+
+      // Settle Phase: straighten perfectly into their vertical grid positions
+      tl.to(cards, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 1.0,
+        ease: 'power3.inOut',
+      }, "+=0.3");
+
+      // Curve Phase (Mobile version): a subtle alternating lean
+      tl.to(cards, {
+        x: (i) => [-15, 15, -10, 10][i as number],
+        y: (i) => [-10, 10, 10, -10][i as number],
+        rotation: (i) => [-3, 3, -2, 2][i as number],
+        scale: 0.96,
+        duration: 2.0,
+        ease: 'power2.inOut',
+      }, "+=0.5");
+    });
+
+    return () => mm.revert();
+  }, { scope: containerRef });
+
+  return (
+    <motion.div
+      ref={containerRef as any}
+      key="deck"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="domains-pin-section w-full"
+    >
+      <div className="text-center mb-12 relative z-10 w-full">
+        <motion.h1
+          className="font-orbitron text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Our <span style={{ color: '#FF6B00' }}>Domains</span>
+        </motion.h1>
+        <motion.p
+          className="font-mono text-sm text-gray-500 mt-3 tracking-widest uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          Hover to explore · Click to meet the team
+        </motion.p>
+      </div>
+
+      <div ref={gridRef} className="domain-deck-grid w-full relative z-10">
+        {domains.map((domain, i) => (
+          <DomainCard
+            key={domain.id}
+            domain={domain}
+            index={i}
+            onSelect={onSelect}
+            activeMobileIndex={activeMobileIndex}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
+/* ============================================================
+   JOIN TEAM SECTION
+   ============================================================ */
+// Extracted to src/components/JoinTeamSection.tsx
+
+/* ============================================================
    MAIN COMPONENT
    ============================================================ */
 const Team = () => {
@@ -324,42 +522,13 @@ const Team = () => {
           {/* ===================== STATE 1: DOMAIN DECK ===================== */}
           {!activeDomain && (
             <motion.div
-              key="deck"
+              key="domain-deck-state"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="min-h-[80vh] flex flex-col items-center justify-center px-4"
             >
-              {/* Header */}
-              <motion.h1
-                className="font-orbitron text-4xl sm:text-5xl md:text-6xl font-black text-white text-center mb-3 tracking-tight"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                Our <span style={{ color: '#FF6B00' }}>Domains</span>
-              </motion.h1>
-              <motion.p
-                className="font-mono text-sm text-gray-500 text-center mb-12 tracking-widest uppercase"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                Hover to explore · Click to meet the team
-              </motion.p>
-
-              {/* Domain Cards Grid */}
-              <div className="domain-deck-grid">
-                {domains.map((domain, i) => (
-                  <DomainCard
-                    key={domain.id}
-                    domain={domain}
-                    index={i}
-                    onSelect={handleSelect}
-                  />
-                ))}
-              </div>
+              <DomainDeckContent onSelect={handleSelect} />
+              <JoinTeamSection />
             </motion.div>
           )}
 

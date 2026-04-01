@@ -44,7 +44,7 @@ const MiniContact = () => {
             <span className="font-rajdhani text-muted-foreground">or email us at</span>
             
             <motion.a
-              href="mailto:iotronics@college.edu"
+              href="mailto:iotronics@nmit.ac.in"
               className="font-mono text-primary hover:underline"
               whileHover={{ scale: 1.05 }}
             >

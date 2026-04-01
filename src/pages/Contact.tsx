@@ -76,11 +76,10 @@ const Contact = () => {
                 <h3 className="font-orbitron text-2xl font-bold mb-8">Contact Information</h3>
 
                 <div className="space-y-6 mb-12">
-                  {[
-                    { icon: <MapPin size={24} />, label: "Location", value: "Engineering Block, Room 302\nUniversity Campus" },
-                    { icon: <Mail size={24} />, label: "Email", value: "iotronics@college.edu" },
-                    { icon: <Phone size={24} />, label: "Phone", value: "+1 (234) 567-8900" },
-                  ].map((item, i) => (
+                    {[
+                      { icon: <MapPin size={24} />, label: "Location", value: "F Block, EEE Dept, NMIT" },
+                      { icon: <Mail size={24} />, label: "Email", value: "iotronics@nmit.ac.in" },
+                    ].map((item, i) => (
                     <motion.div
                       key={item.label}
                       className="flex items-start gap-4 group"
@@ -98,6 +97,28 @@ const Contact = () => {
                       </div>
                     </motion.div>
                   ))}
+
+                  {/* Phone contacts */}
+                  <motion.div
+                    className="flex items-start gap-4 group"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors flex-shrink-0">
+                      <Phone size={24} />
+                    </div>
+                    <div>
+                      <p className="font-mono text-sm text-muted-foreground mb-1">Contact</p>
+                      <a href="tel:+918005863350" className="font-rajdhani text-lg font-medium block hover:text-primary transition-colors">
+                        Rounak: +91 80058 63350
+                      </a>
+                      <a href="tel:+916354959448" className="font-rajdhani text-lg font-medium block hover:text-primary transition-colors">
+                        Rohit: +91 63549 59448
+                      </a>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Social links */}
@@ -105,14 +126,16 @@ const Contact = () => {
                   <h4 className="font-orbitron text-lg font-semibold mb-4">Follow Us</h4>
                   <div className="flex gap-4">
                     {[
-                      { icon: <Instagram size={20} />, label: "Instagram" },
-                      { icon: <Linkedin size={20} />, label: "LinkedIn" },
-                      { icon: <Github size={20} />, label: "GitHub" },
-                      { icon: <Twitter size={20} />, label: "Twitter" },
+                      { icon: <Instagram size={20} />, label: "Instagram", href: "https://www.instagram.com/iotronics.nmit/" },
+                      { icon: <Linkedin size={20} />, label: "LinkedIn", href: "https://linkedin.com/company/iotronics-nmit" },
+                      { icon: <Github size={20} />, label: "GitHub", href: "https://github.com/iotronicsnmit" },
                     ].map((social, i) => (
-                      <motion.button
+                      <motion.a
                         key={social.label}
-                        className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors cursor-pointer"
                         whileHover={{ scale: 1.1, y: -3 }}
                         whileTap={{ scale: 0.95 }}
                         initial={{ opacity: 0, y: 20 }}
@@ -121,7 +144,7 @@ const Contact = () => {
                         transition={{ delay: 0.3 + i * 0.1 }}
                       >
                         {social.icon}
-                      </motion.button>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
@@ -134,80 +157,20 @@ const Contact = () => {
                   viewport={{ once: true }}
                 >
                   <div className="relative h-64 bg-muted">
-                    {/* Styled map placeholder with circuit theme */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <svg className="w-full h-full opacity-20" viewBox="0 0 400 200">
-                        {/* Grid */}
-                        {[...Array(20)].map((_, i) => (
-                          <line
-                            key={`v-${i}`}
-                            x1={i * 20}
-                            y1="0"
-                            x2={i * 20}
-                            y2="200"
-                            stroke="hsl(var(--primary))"
-                            strokeWidth="0.5"
-                          />
-                        ))}
-                        {[...Array(10)].map((_, i) => (
-                          <line
-                            key={`h-${i}`}
-                            x1="0"
-                            y1={i * 20}
-                            x2="400"
-                            y2={i * 20}
-                            stroke="hsl(var(--primary))"
-                            strokeWidth="0.5"
-                          />
-                        ))}
-                      </svg>
-                    </div>
+                    <iframe 
+                      src="https://maps.google.com/maps?q=Nitte%20Meenakshi%20Institute%20of%20Technology&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                      width="100%" 
+                      height="100%" 
+                      style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }} 
+                      allowFullScreen 
+                      loading="lazy" 
+                      referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
                     
-                    {/* Location pin */}
-                    <motion.div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                      animate={{
-                        y: [0, -10, 0],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <div className="relative">
-                        <MapPin className="w-12 h-12 text-primary" fill="hsl(var(--primary))" />
-                        <motion.div
-                          className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full bg-primary/20"
-                          animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.3, 0.1, 0.3],
-                          }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      </div>
-                    </motion.div>
-
-                    {/* Circuit traces */}
-                    <svg className="absolute inset-0 w-full h-full">
-                      {[0, 1, 2].map((i) => (
-                        <motion.circle
-                          key={i}
-                          r="2"
-                          fill="hsl(var(--primary))"
-                          animate={{
-                            cx: ["20%", "50%", "80%", "50%", "20%"],
-                            cy: ["30%", "50%", "70%", "50%", "30%"],
-                          }}
-                          transition={{
-                            duration: 8,
-                            repeat: Infinity,
-                            delay: i * 2,
-                          }}
-                        />
-                      ))}
-                    </svg>
-
                     {/* Label */}
-                    <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm rounded-lg p-3 border border-border">
-                      <p className="font-orbitron text-sm font-semibold">IoTRONICS Lab</p>
-                      <p className="font-rajdhani text-xs text-muted-foreground">Engineering Block, Room 302</p>
+                    <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm rounded-lg p-3 border border-border pointer-events-none">
+                      <p className="font-orbitron text-sm font-semibold text-primary">IoTRONICS Lab</p>
+                      <p className="font-rajdhani text-xs text-muted-foreground">F Block, EEE Dept, NMIT</p>
                     </div>
                   </div>
                 </motion.div>

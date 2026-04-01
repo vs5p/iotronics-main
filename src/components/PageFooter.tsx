@@ -15,10 +15,9 @@ const PageFooter = () => {
   ];
 
   const socialLinks = [
-    { icon: <Instagram size={18} />, label: "Instagram", href: "#" },
-    { icon: <Linkedin size={18} />, label: "LinkedIn", href: "#" },
-    { icon: <Github size={18} />, label: "GitHub", href: "#" },
-    { icon: <Twitter size={18} />, label: "Twitter", href: "#" },
+    { icon: <Instagram size={18} />, label: "Instagram", href: "https://www.instagram.com/iotronics.nmit/" },
+    { icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://linkedin.com/company/iotronics-nmit" },
+    { icon: <Github size={18} />, label: "GitHub", href: "https://github.com/iotronicsnmit" },
   ];
 
   return (
@@ -131,15 +130,18 @@ const PageFooter = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin size={18} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-rajdhani">Engineering Block, Room 302<br />University Campus</span>
+                <span className="font-rajdhani">F Block, EEE Dept<br />NMIT</span>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Mail size={18} className="text-primary flex-shrink-0" />
-                <span className="font-rajdhani">iotronics@college.edu</span>
+                <a href="mailto:iotronics@nmit.ac.in" className="font-rajdhani hover:text-primary transition-colors">iotronics@nmit.ac.in</a>
               </li>
-              <li className="flex items-center gap-3 text-muted-foreground">
-                <Phone size={18} className="text-primary flex-shrink-0" />
-                <span className="font-rajdhani">+1 (234) 567-8900</span>
+              <li className="flex items-start gap-3 text-muted-foreground">
+                <Phone size={18} className="text-primary mt-1 flex-shrink-0" />
+                <span className="font-rajdhani">
+                  <a href="tel:+918005863350" className="block hover:text-primary transition-colors">Rounak: +91 80058 63350</a>
+                  <a href="tel:+916354959448" className="block hover:text-primary transition-colors">Rohit: +91 63549 59448</a>
+                </span>
               </li>
             </ul>
           </div>
@@ -192,7 +194,7 @@ const PageFooter = () => {
             >
               <Heart className="w-4 h-4 text-primary fill-primary" />
             </motion.span>
-            <span>by IoTRONICS © 2024</span>
+            <span>By Iotronics</span>
           </div>
         </div>
       </div>

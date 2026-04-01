@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Info, Calendar } from "lucide-react";
+import { Info, Calendar, ExternalLink } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
@@ -9,35 +9,46 @@ import logoImage from "@/assets/logo.png";
 
 const timelineEvents = [
   {
-    year: "2019",
-    title: "Club Founded",
-    description: "IoTRONICS was established by a group of passionate electronics enthusiasts with a vision to create a community for IoT innovation.",
+    year: "April 2024",
+    title: "Induction Program",
+    description: "The club was found and officially inaugurated.",
+    link: "https://drive.google.com/file/d/1iXMXQD_m_CnQDR5g7V1u7gBO547ZrEap/view?usp=drive_link"
   },
   {
-    year: "2020",
-    title: "First Major Project",
-    description: "Launched our first large-scale project - Smart Attendance System using RFID and cloud integration.",
+    year: "July 2024",
+    title: "Raspberry Pi Workshop",
+    description: "Hands-on workshop exploring the capabilities of Raspberry Pi.",
+    link: "https://drive.google.com/file/d/1znZiOuqjNGtoAlCE1_QL7A1_jjuZx0zw/view?usp=drive_link"
   },
   {
-    year: "2021",
-    title: "National Recognition",
-    description: "Won first prize at the National IoT Challenge, bringing recognition to the club across universities.",
+    year: "December 2024",
+    title: "Idea Forge",
+    description: "A collaborative brainstorming and ideation event.",
+    link: "https://drive.google.com/file/d/1hM26IgqoKCWnWZSj7IPNVvLsp807ZJeT/view?usp=drive_link"
   },
   {
-    year: "2022",
-    title: "Lab Expansion",
-    description: "Opened a dedicated IoT lab with advanced equipment including oscilloscopes, 3D printers, and soldering stations.",
+    year: "September 2025",
+    title: "Orientation 2025",
+    description: "Welcoming the new batch of electronics enthusiasts.",
+    link: "https://drive.google.com/file/d/1j9b8wPubaGwhP94c_hGlwVATAcg1FrKR/view?usp=drive_link"
   },
   {
-    year: "2023",
-    title: "Industry Partnerships",
-    description: "Established partnerships with leading tech companies for internships and project collaborations.",
+    year: "October 2025",
+    title: "Kalpvikas Tech Fest",
+    description: "Secured top position showcasing our flagship projects.",
   },
   {
-    year: "2024",
-    title: "50+ Members Strong",
-    description: "Grew to over 50 active members with multiple award-winning projects and a strong alumni network.",
+    year: "Late 2025",
+    title: "Ideathon 3.0",
+    description: "An intensive ideathon competition pushing the boundaries of innovation.",
+    link: "https://drive.google.com/file/d/12JXrGhlucwE_yFvUaMG_3nixul73WBS/view?usp=drive_link"
   },
+  {
+    year: "Upcoming",
+    title: "Argonyx'25",
+    description: "Preparing for our next major milestone event.",
+    link: "https://drive.google.com/file/d/1shmgswxeW7dH1cBHOpGb9YCFfGuZUS9_/view?usp=drive_link"
+  }
 ];
 
 const About = () => {
@@ -60,6 +71,7 @@ const About = () => {
       <main className="relative pt-20">
         {/* Hero Section */}
         <section className="py-20 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#FF6B35] rounded-full blur-[200px] opacity-10 pointer-events-none pulse-glow" />
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
               className="text-center max-w-4xl mx-auto"
@@ -80,24 +92,21 @@ const About = () => {
               </h1>
 
               <motion.div 
-                className="w-32 h-32 mx-auto mb-8 rounded-full overflow-hidden bg-background/50 flex items-center justify-center border-2 border-primary/30"
+                className="w-40 h-40 mx-auto mb-8 flex items-center justify-center filter drop-shadow-[0_0_20px_rgba(255,107,53,0.3)]"
                 animate={{
-                  boxShadow: [
-                    "0 0 20px hsl(var(--primary) / 0.3)",
-                    "0 0 40px hsl(var(--primary) / 0.5)",
-                    "0 0 20px hsl(var(--primary) / 0.3)",
+                  filter: [
+                    "drop-shadow(0 0 15px rgba(255,107,53,0.3))",
+                    "drop-shadow(0 0 30px rgba(255,107,53,0.6))",
+                    "drop-shadow(0 0 15px rgba(255,107,53,0.3))",
                   ],
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <img src={logoImage} alt="IoTRONICS Logo" className="w-24 h-24 object-contain" />
+                <img src={logoImage} alt="IoTRONICS Logo" className="w-32 h-32 object-contain rounded-full" />
               </motion.div>
 
               <p className="font-rajdhani text-lg md:text-xl text-muted-foreground leading-relaxed">
-                IoTRONICS is the premier Internet of Things club at our university, dedicated to fostering 
-                innovation, collaboration, and hands-on learning in the exciting world of connected devices. 
-                Founded in 2019, we've grown from a small group of enthusiasts to a thriving community of 
-                makers, developers, and innovators.
+                IoTronics is a student-driven technical club at Nitte Meenakshi Institute of Technology (NMIT), established in 2024 under the EEE department. It focuses on IoT, embedded systems, and automation, providing hands-on learning through projects, workshops, and hackathons. Guided by mentors, the club bridges theory and real-world application, fostering innovation and industry-ready skills.
               </p>
             </motion.div>
           </div>
@@ -193,7 +202,12 @@ const About = () => {
                   <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? "md:text-right md:pr-8" : "md:pl-8"}`}>
                     <span className="font-orbitron text-2xl font-bold text-primary">{event.year}</span>
                     <h4 className="font-orbitron text-xl font-semibold mt-2 mb-2">{event.title}</h4>
-                    <p className="font-rajdhani text-muted-foreground">{event.description}</p>
+                    <p className="font-rajdhani text-muted-foreground mb-4">{event.description}</p>
+                    {event.link && (
+                      <a href={event.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-mono text-primary hover:text-secondary transition-colors">
+                        View Event <ExternalLink className="ml-1 w-3 h-3" />
+                      </a>
+                    )}
                   </div>
 
                   {/* Spacer for alternating layout */}
@@ -215,10 +229,10 @@ const About = () => {
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {[
-                  { value: "2019", label: "Founded" },
+                  { value: "2024", label: "Founded" },
                   { value: "50+", label: "Active Members" },
-                  { value: "25+", label: "Projects Completed" },
-                  { value: "15+", label: "Awards Won" },
+                  { value: "10+", label: "Projects Built" },
+                  { value: "5+", label: "Events Hosted" },
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.label}

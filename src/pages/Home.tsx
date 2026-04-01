@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import PageFooter from "@/components/PageFooter";
 import ParticleCanvas from "@/components/3d/ParticleCanvas";
 import ImmersiveHome from "@/components/ImmersiveHome";
+import JoinTeamSection from "@/components/JoinTeamSection";
 
 const Home = () => {
   return (
@@ -23,6 +24,8 @@ const Home = () => {
         <main className="relative">
           <ImmersiveHome />
         </main>
+
+        <JoinTeamSection />
 
         {/* Footer */}
         <PageFooter />

@@ -14,11 +14,16 @@ type Particle = {
   opacity: number;
 };
 
-const PARTICLE_COUNT = 400; // Increased from 200 for more density
-const REVEAL_RADIUS = 250; // Flashlight reveal radius
-const MOUSE_RADIUS = 150; // Mouse interaction radius
-const FRICTION = 0.95; // Velocity damping
-const RETURN_FORCE = 0.01; // Elastic return to home position
+const PARTICLE_COUNT = 400;
+const REVEAL_RADIUS = 250;
+const MOUSE_RADIUS = 150;
+const FRICTION = 0.95;
+const RETURN_FORCE = 0.01;
+
+// Detect touch/non-pointer devices (phones, tablets)
+const isTouchDevice = () =>
+  typeof window !== 'undefined' &&
+  (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
 
 
 const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -37,37 +42,49 @@ const ParticleCanvas = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const touchDevice = isTouchDevice();
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      if (particlesRef.current.length === 0) {
-        particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
+      // Always reinitialize particles to fit new dimensions
+      particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
 
-          return {
-            x,
-            y,
-            vx: 0,
-            vy: 0,
-            ax: 0,
-            ay: 0,
-            baseX: x,
-            baseY: y,
-            radius: randomBetween(1, 3),
-            density: randomBetween(0.8, 1.2),
-            opacity: 0.6, // Base opacity
-          };
-        });
-      }
+        return {
+          x,
+          y,
+          vx: 0,
+          vy: 0,
+          ax: 0,
+          ay: 0,
+          baseX: x,
+          baseY: y,
+          radius: randomBetween(1, 3),
+          density: randomBetween(0.8, 1.2),
+          opacity: 0.6,
+        };
+      });
     };
 
     const onMouseMove = (e: MouseEvent) => {
+      if (touchDevice) return; // on touch devices, ignore mouse events — let drift run
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
     const onMouseLeave = () => {
+      mouseRef.current = null;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!touchDevice) return;
+      const t = e.touches[0];
+      mouseRef.current = { x: t.clientX, y: t.clientY };
+    };
+
+    const onTouchEnd = () => {
       mouseRef.current = null;
     };
 
@@ -115,6 +132,14 @@ const ParticleCanvas = () => {
         if (loaderFinishedRef.current) {
           particle.ax += (particle.baseX - particle.x) * RETURN_FORCE;
           particle.ay += (particle.baseY - particle.y) * RETURN_FORCE;
+          
+          // Ambient drift for mobile/tablet where mouse is inactive
+          if (!mouse) {
+            const time = Date.now() * 0.001;
+            const driftStrength = touchDevice ? 0.55 : 0.15;
+            particle.ax += Math.sin(time + particle.x * 0.01) * driftStrength;
+            particle.ay += Math.cos(time + particle.y * 0.01) * driftStrength;
+          }
         }
 
 
@@ -165,27 +190,25 @@ const ParticleCanvas = () => {
     resizeCanvas();
     render();
 
+    // No preloader on this page — enable physics immediately
+    loaderFinishedRef.current = true;
+
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseout', onMouseLeave);
     window.addEventListener('mouseleave', onMouseLeave);
-
-    // Listen for preloader completion
-    const checkLoaderFinished = () => {
-      const preloader = document.getElementById('preloader');
-      if (preloader && preloader.style.display === 'none') {
-        loaderFinishedRef.current = true;
-      } else {
-        setTimeout(checkLoaderFinished, 100);
-      }
-    };
-    checkLoaderFinished();
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
+    window.addEventListener('touchcancel', onTouchEnd);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseout', onMouseLeave);
       window.removeEventListener('mouseleave', onMouseLeave);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('touchcancel', onTouchEnd);
       cancelAnimationFrame(animationRef.current);
     };
   }, []);
