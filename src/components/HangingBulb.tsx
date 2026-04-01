@@ -121,44 +121,7 @@ const HangingBulb = ({ onToggle, isOn }: HangingBulbProps) => {
         </div>
       </div>
 
-      {/* Ambient light glow on background */}
-      {isLit && (
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-40">
-          {/* Main light cone — anchored to top-right where bulb is */}
-          <motion.div
-            className="absolute pointer-events-none"
-            style={{ top: "220px", right: "60px" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.2 }}
-          >
-            <div
-              className="w-[400px] h-[700px]"
-              style={{
-                background: "conic-gradient(from 180deg at 50% 0%, transparent 15deg, rgba(255, 250, 200, 0.6) 90deg, transparent 165deg)",
-                clipPath: "polygon(50% 0%, 3% 100%, 97% 100%)",
-                filter: "blur(30px)",
-                transform: "translateX(-50%)",
-              }}
-            />
-          </motion.div>
 
-          {/* Soft ambient glow around bulb */}
-          <motion.div
-            className="absolute pointer-events-none"
-            style={{ top: "180px", right: "20px" }}
-            animate={{ opacity: [0.15, 0.25, 0.15] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <div
-              className="w-[200px] h-[200px] rounded-full"
-              style={{
-                background: "radial-gradient(circle, rgba(255, 250, 200, 0.4), transparent 70%)",
-                filter: "blur(40px)",
-              }}
-            />
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 };
