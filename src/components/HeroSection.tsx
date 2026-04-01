@@ -4,6 +4,7 @@ import logoImage from "@/assets/logo.png";
 import { useEffect, useState } from "react";
 import { FloatingOrbsBackground } from "./AnimatedBackgrounds";
 import ParticleCanvas from "./3d/ParticleCanvas";
+import { isMobile } from "@/lib/isMobile";
 
 interface HeroSectionProps {
   onScrollDown: () => void;
@@ -39,8 +40,10 @@ const AnimatedCounter = ({ target, suffix = "", delay = 0 }: { target: number; s
 };
 
 const HeroSection = ({ onScrollDown }: HeroSectionProps) => {
-  // Floating particles for IoT effect
-  const particles = Array.from({ length: 20 }, (_, i) => ({
+  const mobile = isMobile();
+
+  // Floating particles for IoT effect — disabled on mobile
+  const particles = Array.from({ length: mobile ? 0 : 20 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -111,21 +114,31 @@ const HeroSection = ({ onScrollDown }: HeroSectionProps) => {
         ))}
 
         {/* Central glow */}
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, hsl(var(--primary) / 0.15), transparent 50%)",
-          }}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
+        {mobile ? (
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, hsl(var(--primary) / 0.15), transparent 50%)",
+              opacity: 0.3,
+            }}
+          />
+        ) : (
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, hsl(var(--primary) / 0.15), transparent 50%)",
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        )}
       </div>
 
       {/* Connection lines SVG */}
@@ -171,18 +184,29 @@ const HeroSection = ({ onScrollDown }: HeroSectionProps) => {
               transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
             >
               {/* Rotating orbit ring */}
-              <motion.div
-                className="absolute -inset-8"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute top-0 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2">
-                  <Wifi className="text-primary" size={12} />
+              {mobile ? (
+                <div className="absolute -inset-8">
+                  <div className="absolute top-0 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2">
+                    <Wifi className="text-primary" size={12} />
+                  </div>
+                  <div className="absolute bottom-0 left-1/2 w-3 h-3 -translate-x-1/2 translate-y-1/2">
+                    <Radio className="text-secondary" size={12} />
+                  </div>
                 </div>
-                <div className="absolute bottom-0 left-1/2 w-3 h-3 -translate-x-1/2 translate-y-1/2">
-                  <Radio className="text-secondary" size={12} />
-                </div>
-              </motion.div>
+              ) : (
+                <motion.div
+                  className="absolute -inset-8"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
+                  <div className="absolute top-0 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2">
+                    <Wifi className="text-primary" size={12} />
+                  </div>
+                  <div className="absolute bottom-0 left-1/2 w-3 h-3 -translate-x-1/2 translate-y-1/2">
+                    <Radio className="text-secondary" size={12} />
+                  </div>
+                </motion.div>
+              )}
 
               <motion.img
                 src={logoImage}

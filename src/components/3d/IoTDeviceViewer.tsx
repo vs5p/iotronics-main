@@ -1,6 +1,78 @@
 import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
+import { isMobile } from '../../lib/isMobile';
+
+const MobileDevicePlaceholder = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <svg
+      width="80"
+      height="80"
+      viewBox="0 0 80 80"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Device body */}
+      <rect x="15" y="20" width="50" height="35" rx="4" stroke="#FF5500" strokeWidth="2" fill="rgba(255,85,0,0.08)" />
+      {/* Antenna */}
+      <line x1="58" y1="20" x2="58" y2="10" stroke="#00F0FF" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="58" cy="8" r="2" fill="#00F0FF" />
+      {/* LED dots */}
+      <circle cx="28" cy="37" r="3" fill="#FF5500" />
+      <circle cx="40" cy="37" r="3" fill="#00F0FF" />
+      <circle cx="52" cy="37" r="3" fill="#FFD700" />
+    </svg>
+  </div>
+);
+
+const MobileNetworkPlaceholder = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <svg
+      width="80"
+      height="80"
+      viewBox="0 0 80 80"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Central node */}
+      <circle cx="40" cy="40" r="8" fill="#FF5500" fillOpacity="0.8" />
+      {/* Outer nodes */}
+      <circle cx="20" cy="20" r="5" fill="#00F0FF" fillOpacity="0.7" />
+      <circle cx="60" cy="20" r="5" fill="#00F0FF" fillOpacity="0.7" />
+      <circle cx="20" cy="60" r="5" fill="#00F0FF" fillOpacity="0.7" />
+      <circle cx="60" cy="60" r="5" fill="#00F0FF" fillOpacity="0.7" />
+      {/* Connecting lines */}
+      <line x1="40" y1="40" x2="20" y2="20" stroke="#00F0FF" strokeWidth="1" strokeOpacity="0.5" />
+      <line x1="40" y1="40" x2="60" y2="20" stroke="#00F0FF" strokeWidth="1" strokeOpacity="0.5" />
+      <line x1="40" y1="40" x2="20" y2="60" stroke="#00F0FF" strokeWidth="1" strokeOpacity="0.5" />
+      <line x1="40" y1="40" x2="60" y2="60" stroke="#00F0FF" strokeWidth="1" strokeOpacity="0.5" />
+    </svg>
+  </div>
+);
 
 const IoTDevice = () => {
   const groupRef = useRef<any>(null);
@@ -87,6 +159,8 @@ const ConnectedNodes = () => {
 };
 
 export const IoTDeviceViewer = () => {
+  if (isMobile()) return <MobileDevicePlaceholder />;
+
   return (
     <Canvas
       style={{
@@ -108,6 +182,8 @@ export const IoTDeviceViewer = () => {
 };
 
 export const NetworkVisualization = () => {
+  if (isMobile()) return <MobileNetworkPlaceholder />;
+
   return (
     <Canvas
       style={{
