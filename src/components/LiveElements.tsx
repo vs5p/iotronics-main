@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
+import { isMobile } from "@/lib/isMobile";
 
 // Floating particles with more variety
 export const FloatingParticles = () => {
+  if (isMobile()) return null;
   const particles = Array.from({ length: 30 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -54,6 +56,34 @@ export const FloatingParticles = () => {
 
 // Circuit traces background
 export const CircuitBackground = () => {
+  if (isMobile()) {
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
+        <svg className="absolute w-full h-full">
+          {[10, 25, 40, 55, 70, 85].map((x) => (
+            <line
+              key={`v-${x}`}
+              x1={`${x}%`} y1="0" x2={`${x}%`} y2="100%"
+              stroke="hsl(var(--circuit-trace))" strokeWidth="1" strokeDasharray="5 20"
+            />
+          ))}
+          {[15, 35, 55, 75, 95].map((y) => (
+            <line
+              key={`h-${y}`}
+              x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
+              stroke="hsl(var(--circuit-trace))" strokeWidth="1" strokeDasharray="10 30"
+            />
+          ))}
+          {[10, 40, 70].map((x) =>
+            [35, 55, 75].map((y) => (
+              <circle key={`node-${x}-${y}`} cx={`${x}%`} cy={`${y}%`} r="4" fill="hsl(var(--primary))" opacity={0.3} />
+            ))
+          )}
+        </svg>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
       <svg className="absolute w-full h-full">
@@ -140,6 +170,7 @@ export const CircuitBackground = () => {
 
 // Electricity arc effect
 export const ElectricityArc = () => {
+  if (isMobile()) return null;
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {[0, 1, 2].map((i) => (

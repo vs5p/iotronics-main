@@ -35,19 +35,11 @@ const timelineEvents = [
   {
     year: "October 2025",
     title: "Kalpvikas Tech Fest",
-    description: "Secured top position showcasing our flagship projects.",
-  },
-  {
-    year: "Late 2025",
-    title: "Ideathon 3.0",
-    description: "An intensive ideathon competition pushing the boundaries of innovation.",
-    link: "https://drive.google.com/file/d/12JXrGhlucwE_yFvUaMG_3nixul73WBS/view?usp=drive_link"
-  },
-  {
-    year: "Upcoming",
-    title: "Argonyx'25",
-    description: "Preparing for our next major milestone event.",
-    link: "https://drive.google.com/file/d/1shmgswxeW7dH1cBHOpGb9YCFfGuZUS9_/view?usp=drive_link"
+    description: "Secured top position showcasing our flagship projects, winning Ideathon 3.0 and Argonyx'25.",
+    links: [
+      { label: "Ideathon 3.0", url: "https://drive.google.com/file/d/12JXrGhlucwE_yFvUaMG_3nixul73WBS/view?usp=drive_link" },
+      { label: "Argonyx'25", url: "https://drive.google.com" }
+    ]
   }
 ];
 
@@ -207,6 +199,15 @@ const About = () => {
                       <a href={event.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-mono text-primary hover:text-secondary transition-colors">
                         View Event <ExternalLink className="ml-1 w-3 h-3" />
                       </a>
+                    )}
+                    {event.links && (
+                      <div className="flex flex-col gap-2 mt-2">
+                        {event.links.map((lnk, i) => (
+                          <a key={i} href={lnk.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-mono text-primary hover:text-secondary transition-colors">
+                            {lnk.label} <ExternalLink className="ml-1 w-3 h-3" />
+                          </a>
+                        ))}
+                      </div>
                     )}
                   </div>
 

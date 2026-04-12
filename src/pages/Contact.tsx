@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send, Instagram, Linkedin, Github, Twitter } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
@@ -23,9 +24,39 @@ const Contact = () => {
     }
   }, [isDarkMode]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/iotronics@nmit.ac.in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _subject: `New Message from ${formData.name}`,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        toast.error("Failed to send message. Please try again later.");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -77,8 +108,8 @@ const Contact = () => {
 
                 <div className="space-y-6 mb-12">
                     {[
-                      { icon: <MapPin size={24} />, label: "Location", value: "F Block, EEE Dept, NMIT" },
-                      { icon: <Mail size={24} />, label: "Email", value: "iotronics@nmit.ac.in" },
+                      { icon: <MapPin size={24} />, label: "Location", value: "Room 302, F Block, EEE Dept, NMIT", href: "https://www.google.com/maps/search/?api=1&query=Nitte+Meenakshi+Institute+of+Technology" },
+                      { icon: <Mail size={24} />, label: "Email", value: "iotronics@nmit.ac.in", href: "mailto:iotronics@nmit.ac.in" },
                     ].map((item, i) => (
                     <motion.div
                       key={item.label}
@@ -93,7 +124,14 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-mono text-sm text-muted-foreground mb-1">{item.label}</p>
-                        <p className="font-rajdhani text-lg font-medium whitespace-pre-line">{item.value}</p>
+                        <a 
+                          href={item.href} 
+                          target={item.label === "Location" ? "_blank" : undefined} 
+                          rel={item.label === "Location" ? "noopener noreferrer" : undefined} 
+                          className="font-rajdhani text-lg font-medium whitespace-pre-line hover:text-primary transition-colors block"
+                        >
+                          {item.value}
+                        </a>
                       </div>
                     </motion.div>
                   ))}

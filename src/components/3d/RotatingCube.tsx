@@ -1,6 +1,38 @@
 import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
+import { isMobile } from '../../lib/isMobile';
+
+const MobileCubePlaceholder = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <div
+      style={{
+        width: 64,
+        height: 64,
+        border: '2px solid #FF5500',
+        boxShadow: '0 0 12px rgba(255,85,0,0.5)',
+        animation: 'cubeRotate 3s linear infinite',
+      }}
+    />
+    <style>{`
+      @keyframes cubeRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `}</style>
+  </div>
+);
 
 const CubeGeometry = () => {
   const meshRef = useRef<Mesh>(null);
@@ -52,6 +84,7 @@ const IoTWireframe = () => {
 
 export const RotatingCube = ({ isLoading }: { isLoading: boolean }) => {
   if (!isLoading) return null;
+  if (isMobile()) return <MobileCubePlaceholder />;
 
   return (
     <Canvas

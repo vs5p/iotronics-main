@@ -21,29 +21,10 @@ const PageFooter = () => {
   ];
 
   return (
-    <footer className="relative py-16 border-t border-border bg-card">
+    <footer className="relative py-16 border-t border-border bg-card overflow-hidden z-50">
       {/* Circuit trace top */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
       
-      {/* Animated nodes on top */}
-      <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden">
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-primary -top-1"
-            animate={{
-              x: ["-10%", "110%"],
-            }}
-            transition={{
-              duration: 5 + i,
-              repeat: Infinity,
-              ease: "linear",
-              delay: i * 1.5,
-            }}
-          />
-        ))}
-      </div>
-
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Logo & Description */}
@@ -130,7 +111,14 @@ const PageFooter = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin size={18} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-rajdhani">F Block, EEE Dept<br />NMIT</span>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=Nitte+Meenakshi+Institute+of+Technology"
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="font-rajdhani hover:text-primary transition-colors"
+                >
+                  Room 302, F Block, EEE Dept, NMIT
+                </a>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Mail size={18} className="text-primary flex-shrink-0" />
@@ -170,7 +158,7 @@ const PageFooter = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 pb-12 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 font-rajdhani text-sm text-muted-foreground">
             {["Privacy Policy", "Terms of Service", "Code of Conduct"].map((link) => (

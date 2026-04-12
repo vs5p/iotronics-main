@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Linkedin, Github, ArrowLeft, Shield, Code, Cpu, Camera } from 'lucide-react';
+import { Linkedin, Github, ArrowLeft, Shield, Code, Cpu, Camera, GraduationCap } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import PageFooter from '@/components/PageFooter';
 import OrangeAtmosphere from '@/components/OrangeAtmosphere';
@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface TeamMember {
   name: string;
   role: string;
+  specialization?: string;
   avatar: string;
   linkedin?: string;
   github?: string;
@@ -34,6 +35,7 @@ interface Domain {
 }
 
 const domains: Domain[] = [
+
   {
     id: 'admin',
     label: 'ADMINISTRATION',
@@ -48,10 +50,16 @@ const domains: Domain[] = [
       'Member Recruitment',
     ],
     members: [
-      { name: 'Alex Chen', role: 'PRESIDENT', avatar: 'AC' },
-      { name: 'Sarah Williams', role: 'VICE_PRESIDENT', avatar: 'SW' },
-      { name: 'Amy Foster', role: 'EVENTS_COORD', avatar: 'AF' },
-      { name: 'Ryan Smith', role: 'LOGISTICS_HEAD', avatar: 'RS' },
+      { name: 'Rounak Vyas', role: 'President', specialization: 'Embedded Systems & IoT Architecture', avatar: '/images/Heads/Rounak_Vyas.jpg' },
+      { name: 'Rohit Soni', role: 'Vice President', specialization: 'Software Development & Cloud', avatar: '/images/Heads/Rohit Soni.jpg' },
+      { name: 'Ujwala.P', role: 'Lead', specialization: 'UI/UX Design', avatar: '/images/admin_comm/ujwalaP.jpeg' },
+      { name: 'Lakshmy S', role: 'Co-Lead', specialization: 'Visual Identity', avatar: '/images/admin_comm/Lakshmy S.jpg' },
+      { name: 'Sai Vikas', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/saivikas.jpg' },
+      { name: 'Keerthi V', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/keerthi V.jpeg' },
+      { name: 'Sneha K Binu', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/sneha.jpeg' },
+      { name: 'Siri Patil', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/siripatil.jpeg' },
+      { name: 'Amith Sham', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/Amith Sham.jpg' },
+      { name: 'C.Nevesha Tanya', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/cnevasha.jpeg' },
     ],
   },
   {
@@ -68,9 +76,12 @@ const domains: Domain[] = [
       'Mobile App Dev',
     ],
     members: [
-      { name: 'David Kim', role: 'LEAD_DEVELOPER', avatar: 'DK' },
-      { name: 'Priya Sharma', role: 'BACKEND_DEV', avatar: 'PS' },
-      { name: 'Jake Morrison', role: 'FRONTEND_DEV', avatar: 'JM' },
+      { name: 'Sankalp Vyas', role: 'Lead Developer', specialization: 'Full Stack Development', avatar: '/images/coding/Sankalp.jpg' },
+      { name: 'Disha Gupta', role: 'Backend Developer', specialization: 'APIs & Databases', avatar: '/images/coding/Disha.jpg.jpeg' },
+      { name: 'Karthik G', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Karthik G.jpg' },
+      { name: 'Jayakrishnan R', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Jayakrishnan R.jpg' },
+      { name: 'Sniti Jain', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Sniti Jain.jpg' },
+      { name: 'Manish Omprakash', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Manish.jpg' },
     ],
   },
   {
@@ -87,9 +98,18 @@ const domains: Domain[] = [
       '3D Prototyping',
     ],
     members: [
-      { name: 'Raj Patel', role: 'TECH_LEAD', avatar: 'RP' },
-      { name: 'Michael Lee', role: 'HW_ENGINEER', avatar: 'ML' },
-      { name: 'Emma Johnson', role: 'RESEARCH_HEAD', avatar: 'EJ' },
+      { name: 'Tanushri vijay', role: 'Technical Lead', specialization: 'IoT Architecture', avatar: '/images/tech/Tanushri.jpg' },
+      { name: 'Aditya Suhas Satwik', role: 'Hardware Engineer', specialization: 'Embedded Systems', avatar: '/images/tech/Aditya Satwik.jpg' },
+      { name: 'Karan M Bhat', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Karan.jpg' },
+      { name: 'Kavyesh Gujetiya', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/kavyesh gujetiya.jpeg' },
+      { name: 'Ajay C A', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Ajay C A.jpg' },
+      { name: 'Shreya Fouzdar', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Shreya Fouzdar.jpg' },
+      { name: 'Aditya Vijaykumar', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/AdityaVG.jpg' },
+      { name: 'Ananya Manjunath', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Ananya Manjunath.jpg' },
+      { name: 'Amogh D Pinglay', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Amogh Pinglay.jpg' },
+      { name: 'Keertana Kavitha', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Keertana Kavitha.jpg' },
+      { name: 'Madhusudhan M R', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Madhusudhan M R.jpg' },
+      { name: 'Meher Chaitanya', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Meher Chaitanya.jpg' },
     ],
   },
   {
@@ -106,10 +126,32 @@ const domains: Domain[] = [
       'Brand Identity',
     ],
     members: [
-      { name: 'Lisa Wang', role: 'PR_HEAD', avatar: 'LW' },
-      { name: 'Nina Rodriguez', role: 'DESIGN_LEAD', avatar: 'NR' },
-      { name: 'Chris Park', role: 'GRAPHIC_DESIGNER', avatar: 'CP' },
-      { name: 'Tom Bradley', role: 'SOCIAL_MEDIA', avatar: 'TB' },
+      { name: 'Yashaswini', role: 'PR Head', specialization: 'Lead', avatar: '/images/media/Yashaswini.jpg' },
+      { name: 'Sameeksha Beram', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/sameeksha.jpg' },
+      { name: 'Diddekunta Bhavitha', role: 'member-Dop /Video', specialization: 'Content Strategy', avatar: '/images/media/WhatsApp Image 2026-02-04 at 7.54.25 PM.jpeg' },
+      { name: 'Srinidhi A U', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/20250701_092625~2.jpg' },
+      { name: 'Adit jain', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/adit_jain.jpg' },
+      { name: 'Hardik T', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/Hardik T.jpg' },
+      { name: 'Jyothsna D.M', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/Jyothsna_102091.jpg' },
+      { name: 'Harini Prabagaran', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/Harini.jpg' },
+      { name: 'Umang', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/Umang.jpg' },
+    ],
+  },
+  {
+    id: 'faculty',
+    label: 'FACULTY',
+    tag: 'COORDINATORS',
+    icon: <GraduationCap size={32} />,
+    color: '#FF6B00',
+    responsibilities: [
+      'Mentorship & Guidance',
+      'Strategic Planning',
+      'Institutional Support',
+      'Project Approvals',
+    ],
+    members: [
+      { name: 'Ms. Smitha B', role: 'Assistant Professor, EEE Dept', specialization: 'Project Guidance & Mentorship', avatar: '/images/coordinators/WhatsApp Image 2026-01-30 at 3.46.19 PM.jpeg' },
+      { name: 'Ms. Meghana A', role: 'Assistant Professor, EEE Dept', specialization: 'Technical Support & Innovation', avatar: '/images/coordinators/WhatsApp Image 2026-01-28 at 1.46.38 PM.jpeg' },
     ],
   },
 ];
@@ -122,6 +164,7 @@ const exitDirections = [
   { x: 600, y: -400, rotate: 25 },
   { x: -600, y: 400, rotate: 15 },
   { x: 600, y: 400, rotate: -15 },
+  { x: 0, y: -500, rotate: 0 },
 ];
 
 /* ============================================================
@@ -236,21 +279,34 @@ const MemberCard = ({
         style={{ opacity: hovered ? 0.7 : 0.35 }}
       />
 
-      {/* Avatar */}
-      <div className={`member-avatar ${hovered ? 'member-avatar-active' : ''}`}>
-        <span className="member-avatar-text">{member.avatar}</span>
-      </div>
+      <motion.div 
+        className="flex flex-col items-center justify-center w-full relative z-10"
+        animate={{ y: hovered ? -20 : 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        {/* Avatar */}
+        <div className={`member-avatar overflow-hidden ${hovered ? 'member-avatar-active' : ''}`}>
+          {member.avatar.startsWith('/') ? (
+            <img src={member.avatar} alt={member.name} className="w-full h-full object-cover rounded-full" />
+          ) : (
+            <span className="member-avatar-text">{member.avatar}</span>
+          )}
+        </div>
 
-      {/* Info */}
-      <h3 className="member-name">{member.name}</h3>
-      <p className="member-role">{member.role}</p>
+        {/* Info */}
+        <h3 className="member-name" style={{ marginBottom: "2px" }}>{member.name}</h3>
+        <p className="member-role" style={{ marginBottom: "4px" }}>{member.role}</p>
+        {member.specialization && (
+          <p className="member-role" style={{ fontSize: "0.75rem", opacity: 0.7, fontFamily: "monospace" }}>{member.specialization}</p>
+        )}
+      </motion.div>
 
       {/* Socials — appear on hover */}
       <motion.div
         className="member-socials"
-        initial={{ opacity: 0, y: 8 }}
-        animate={hovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-        transition={{ duration: 0.25 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 20 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <a href="#" className="member-social-icon" aria-label="LinkedIn">
           <Linkedin size={16} />
@@ -316,10 +372,10 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
   const gridRef = useRef<HTMLDivElement>(null);
   const [activeMobileIndex, setActiveMobileIndex] = useState<number | null>(null);
 
-  // On touch devices, find which card is closest to the viewport center on scroll
+  // On mobile devices, find which card is closest to the viewport center on scroll
   useEffect(() => {
-    const isTouch = window.matchMedia('(pointer: coarse)').matches;
-    if (!isTouch) return;
+    const isMobile = window.innerWidth < 1024;
+    if (!isMobile) return;
 
     const handleScroll = () => {
       const cards = document.querySelectorAll<HTMLElement>('.card-anim-wrapper');
@@ -349,11 +405,9 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
     const cards = gsap.utils.toArray('.card-anim-wrapper');
     if (!cards.length) return;
 
-    // Responsive setup
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 1024px)", () => {
-      // Phase 1 Setup: Offscreen to the right
       gsap.set(cards, {
         x: '100vw',
         y: 0,
@@ -362,17 +416,20 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
         opacity: 0
       });
 
-      // Auto-playing timeline (no scroll reaction)
-      const tl = gsap.timeline({ delay: 0.2 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+        }
+      });
 
-      const fanAngles = [-15, -5, 5, 15];
-      const fanYOffsets = [20, 0, 0, 20];
+      const fanAngles = [-20, -10, 0, 10, 20];
+      const fanYOffsets = [30, 10, -5, 10, 30];
 
-      // The Fan Phase: cluster at the center like playing cards
       tl.to(cards, {
-        x: (i) => `calc(${(1.5 - i as number) * 100}% + ${(1.5 - i as number) * 24}px)`,
-        y: (i) => fanYOffsets[i],
-        rotation: (i) => fanAngles[i],
+        x: (i) => `calc(${(2 - (i as number)) * 100}% + ${(2 - (i as number)) * 24}px)`,
+        y: (i) => fanYOffsets[i as number] || 0,
+        rotation: (i) => fanAngles[i as number] || 0,
         scale: 0.9,
         opacity: 1,
         duration: 1.5,
@@ -380,21 +437,16 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
         ease: 'power2.out',
       });
 
-      // Settle Phase: drop perfectly into the grid positions
       tl.to(cards, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: 1,
+        x: 0, y: 0, rotation: 0, scale: 1,
         duration: 1.5,
         ease: 'power3.inOut',
       }, "+=0.5");
 
-      // Curve Phase: slow deviation outwards forming an arch
       tl.to(cards, {
-        y: (i) => [-60, 20, 20, -60][i as number],
-        x: (i) => [-60, -20, 20, 60][i as number],
-        rotation: (i) => [-20, -5, 5, 20][i as number],
+        y: (i) => [-40, 0, 20, 0, -40][i as number] || 0,
+        x: (i) => [-60, -20, 0, 20, 60][i as number] || 0,
+        rotation: (i) => [-20, -10, 0, 10, 20][i as number] || 0,
         scale: 0.9,
         duration: 2.0,
         ease: 'power2.inOut',
@@ -402,47 +454,26 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
     });
 
     mm.add("(max-width: 1023px)", () => {
-      // Mobile sequence setup (Start offscreen at the bottom)
-      gsap.set(cards, { 
-        y: '50vh', 
-        rotation: (i) => [-20, 20, -15, 15][i],
-        scale: 0.8,
-        opacity: 0 
+      // Individual smoothed scroll-triggered animations for each card on mobile
+      cards.forEach((card, i) => {
+        gsap.fromTo(card as HTMLElement, 
+          { 
+            y: 60, 
+            opacity: 0 
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card as HTMLElement,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            }
+          }
+        );
       });
-
-      const tl = gsap.timeline({ delay: 0.2 });
-
-      // The Fan Phase (Mobile version): fly in to a messy, slightly zigzagged stack
-      tl.to(cards, {
-        y: 0,
-        x: (i) => [15, -15, 10, -10][i],
-        rotation: (i) => [6, -6, 4, -4][i],
-        scale: 0.95,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power3.out',
-      });
-
-      // Settle Phase: straighten perfectly into their vertical grid positions
-      tl.to(cards, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: 1,
-        duration: 1.0,
-        ease: 'power3.inOut',
-      }, "+=0.3");
-
-      // Curve Phase (Mobile version): a subtle alternating lean
-      tl.to(cards, {
-        x: (i) => [-15, 15, -10, 10][i as number],
-        y: (i) => [-10, 10, 10, -10][i as number],
-        rotation: (i) => [-3, 3, -2, 2][i as number],
-        scale: 0.96,
-        duration: 2.0,
-        ease: 'power2.inOut',
-      }, "+=0.5");
     });
 
     return () => mm.revert();
@@ -458,7 +489,7 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
       transition={{ duration: 0.4 }}
       className="domains-pin-section w-full"
     >
-      <div className="text-center mb-12 relative z-10 w-full">
+      <div className="text-center mb-8 mt-2 md:mb-12 md:-mt-12 lg:-mt-20 relative z-10 w-full">
         <motion.h1
           className="font-orbitron text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight"
           initial={{ opacity: 0, y: 30 }}
@@ -598,7 +629,7 @@ const Team = () => {
 
               {/* Member cards grid */}
               <div className="relative z-10 px-4 pb-20">
-                <div className="member-grid">
+                <div className={`member-grid ${activeDomainData.members.length <= 2 ? 'member-grid-centered' : ''}`}>
                   {activeDomainData.members.map((member, i) => (
                     <MemberCard key={member.name} member={member} index={i} />
                   ))}

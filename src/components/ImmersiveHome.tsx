@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Thermometer, Droplets, Wind } from 'lucide-react';
 import useImmersiveScroll from '@/hooks/useImmersiveScroll';
+import { isMobile } from '@/lib/isMobile';
+import { useInView } from '@/hooks/useInView';
 
 /* ============================================================
    Quote Carousel
@@ -17,8 +19,9 @@ const QuoteCarousel = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => setIndex((prev) => (prev + 1) % quotes.length), 5000);
-    return () => clearInterval(interval);
+    const interval = isMobile() ? 8000 : 5000;
+    const id = setInterval(() => setIndex((prev) => (prev + 1) % quotes.length), interval);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -61,16 +64,18 @@ const useWeatherData = () => {
   return data;
 };
 
-const useLivePulsingValue = (liveValue: number, fluctuation: number, interval = 2000) => {
+const useLivePulsingValue = (liveValue: number, fluctuation: number, interval = 2000, mobileInterval?: number, active = true) => {
   const [val, setVal] = useState(liveValue);
   useEffect(() => {
     // Reset to base live value initially
     setVal(liveValue);
+    if (!active) return;
+    const delay = isMobile() ? (mobileInterval ?? 5000) : interval;
     const id = setInterval(() => {
       setVal(liveValue + (Math.random() - 0.5) * fluctuation);
-    }, interval);
+    }, delay);
     return () => clearInterval(id);
-  }, [liveValue, fluctuation, interval]);
+  }, [liveValue, fluctuation, interval, mobileInterval, active]);
   return val.toFixed(1);
 };
 
@@ -81,6 +86,7 @@ const IoTCard = ({
   base,
   range,
   color,
+  active = true,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -88,8 +94,9 @@ const IoTCard = ({
   base: number;
   range: number;
   color: string;
+  active?: boolean;
 }) => {
-  const val = useLivePulsingValue(base, range, 1800 + Math.random() * 800);
+  const val = useLivePulsingValue(base, range, 1800 + Math.random() * 800, undefined, active);
 
   return (
     <div className="imm-iot-card group">
@@ -182,6 +189,9 @@ const ImmersiveHome = () => {
   useImmersiveScroll();
   const weatherData = useWeatherData();
 
+  // Gate IoT dashboard intervals when Panel 3 is off-screen
+  const [iotRef, iotInView] = useInView(0.1);
+
   return (
     <div className="imm-panels-container">
       {/* ==================== PANEL 1 — HERO ==================== */}
@@ -257,7 +267,7 @@ const ImmersiveHome = () => {
       </section>
 
       {/* ==================== PANEL 3 — PROJECTS / IoT DASHBOARD ==================== */}
-      <section className="imm-panel" id="imm-projects">
+      <section className="imm-panel" id="imm-projects" ref={iotRef as React.RefObject<HTMLElement>}>
         {/* Rich decorative backgrounds */}
         <PanelFade position="top" />
         <AmbientOrb color="rgba(255, 107, 53, 0.06)" size={600} top="20%" left="-10%" delay={1} />
@@ -282,6 +292,7 @@ const ImmersiveHome = () => {
               base={weatherData.temp}
               range={0.4}
               color="#FF6B35"
+              active={iotInView}
             />
             <IoTCard
               icon={<Droplets size={20} className="text-[#00D4FF]" />}
@@ -290,6 +301,7 @@ const ImmersiveHome = () => {
               base={weatherData.humidity}
               range={1.2}
               color="#00D4FF"
+              active={iotInView}
             />
             <IoTCard
               icon={<Wind size={20} className="text-[#4ADE80]" />}
@@ -298,6 +310,7 @@ const ImmersiveHome = () => {
               base={weatherData.wind}
               range={1.5}
               color="#4ADE80"
+              active={iotInView}
             />
           </div>
         </div>

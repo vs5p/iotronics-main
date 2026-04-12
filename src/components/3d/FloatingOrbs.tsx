@@ -1,6 +1,28 @@
 import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
+import { isMobile } from '../../lib/isMobile';
+
+const MobileOrbPlaceholder = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'radial-gradient(ellipse at 30% 40%, rgba(255,85,0,0.25) 0%, rgba(0,240,255,0.12) 50%, transparent 70%)',
+      animation: 'orbPulse 4s ease-in-out infinite',
+    }}
+  >
+    <style>{`
+      @keyframes orbPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.06); opacity: 1; }
+      }
+    `}</style>
+  </div>
+);
 
 interface OrbProps {
   position: [number, number, number];
@@ -58,6 +80,8 @@ const Particles = () => {
 };
 
 export const FloatingOrbs = () => {
+  if (isMobile()) return <MobileOrbPlaceholder />;
+
   return (
     <Canvas
       style={{

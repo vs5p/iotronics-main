@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { isMobile } from '../lib/isMobile';
 
 export const AnimatedCubeBackground = ({ isLoading }: { isLoading: boolean }) => {
   if (!isLoading) return null;
@@ -58,6 +59,37 @@ export const AnimatedCubeBackground = ({ isLoading }: { isLoading: boolean }) =>
 };
 
 export const FloatingOrbsBackground = () => {
+  if (isMobile()) {
+    return (
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div
+          style={{
+            position: 'absolute',
+            top: '25%',
+            left: '25%',
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, #FF5500 0%, transparent 70%)',
+            opacity: 0.3,
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '60%',
+            left: '65%',
+            width: '70px',
+            height: '70px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, #00F0FF 0%, transparent 70%)',
+            opacity: 0.3,
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" style={{ opacity: 0.15 }}>
       <defs>
