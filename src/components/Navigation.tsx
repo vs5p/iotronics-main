@@ -267,13 +267,6 @@ const Navigation = () => {
         )}
       </AnimatePresence>
 
-      {/* Bottom circuit trace - responsive to scroll */}
-      <motion.div 
-        className="absolute bottom-0 left-0 h-0.5 bg-primary"
-        style={{ 
-          width: lineWidth,
-        }}
-      />
     </motion.nav>
   );
 };
