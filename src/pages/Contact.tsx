@@ -24,39 +24,15 @@ const Contact = () => {
     }
   }, [isDarkMode]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = (e: React.FormEvent) => {
+    // FormSubmit handles the submission natively via the action attribute.
+    // We just do basic validation here if needed.
     if (!formData.name || !formData.email || !formData.message) {
+      e.preventDefault();
       toast.error("Please fill in all required fields.");
       return;
     }
-
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/iotronics@nmit.ac.in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          _subject: `New Message from ${formData.name}`,
-        }),
-      });
-
-      if (response.ok) {
-        toast.success("Message sent successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        toast.error("Failed to send message. Please try again later.");
-      }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
-    }
+    // Proceed with normal form submission
   };
 
   return (
@@ -220,8 +196,18 @@ const Contact = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <form onSubmit={handleSubmit} className="card-circuit">
+                <form 
+                  action="https://formsubmit.co/iotronics@nmit.ac.in" 
+                  method="POST" 
+                  onSubmit={handleSubmit} 
+                  className="card-circuit relative z-50"
+                >
                   <h3 className="font-orbitron text-2xl font-bold mb-8">Send a Message</h3>
+
+                  {/* Anti-spam and configuration fields */}
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_subject" value={`New Message from IoTRONICS Website: ${formData.subject || 'Contact Form'}`} />
 
                   <div className="space-y-6">
                     <div className="grid sm:grid-cols-2 gap-6">
@@ -231,6 +217,8 @@ const Contact = () => {
                         </label>
                         <input
                           type="text"
+                          name="name"
+                          required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className="w-full px-4 py-3 rounded-lg bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors font-rajdhani"
@@ -243,6 +231,8 @@ const Contact = () => {
                         </label>
                         <input
                           type="email"
+                          name="email"
+                          required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="w-full px-4 py-3 rounded-lg bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors font-rajdhani"
@@ -257,6 +247,8 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        name="subject"
+                        required
                         value={formData.subject}
                         onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                         className="w-full px-4 py-3 rounded-lg bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors font-rajdhani"
@@ -269,6 +261,8 @@ const Contact = () => {
                         Message
                       </label>
                       <textarea
+                        name="message"
+                        required
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         rows={5}
