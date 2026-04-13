@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, Medal, Award, Star, Calendar } from "lucide-react";
+import { Trophy, Medal, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import HangingBulb from "@/components/HangingBulb";
 import PageFooter from "@/components/PageFooter";
@@ -8,84 +8,48 @@ import { useState, useEffect } from "react";
 
 const achievements = [
   {
-    title: "Smart India Hackathon 2024",
-    position: "1st Place",
-    description: "National-level hackathon win for our IoT-based healthcare monitoring solution",
-    date: "December 2024",
-    icon: <Trophy className="w-8 h-8" />,
-    color: "text-accent",
-    bgColor: "bg-accent/10 border-accent/30",
-  },
-  {
-    title: "TechFest IoT Challenge",
-    position: "2nd Place",
-    description: "Runner-up for smart agriculture automation project at inter-college tech fest",
-    date: "October 2024",
+    title: "Inceptio 2026 (KSHEMA, Mangalore)",
+    position: "2nd Prize Overall",
+    description: "National-level healthcare-tech innovation platform. Competing against 70+ teams, this achievement highlights the strength and impact of our solution.",
+    date: "February 2026",
     icon: <Medal className="w-8 h-8" />,
     color: "text-secondary",
     bgColor: "bg-secondary/10 border-secondary/30",
   },
   {
-    title: "IEEE Project Competition",
-    position: "Best Innovation",
-    description: "Recognized for innovative approach in our autonomous robot navigation system",
-    date: "August 2024",
-    icon: <Award className="w-8 h-8" />,
-    color: "text-primary",
-    bgColor: "bg-primary/10 border-primary/30",
+    title: "Retropolitan & Terabyte Competition",
+    position: "Two Grand Wins - ₹33,000",
+    description: "Secured 1st Prize at Retropolitan (₹25,000) and Bengaluru Impact Award under Terabyte (₹8,000) at Alliance University, Bengaluru.",
+    date: "February 2026",
+    icon: <Trophy className="w-8 h-8" />,
+    color: "text-accent",
+    bgColor: "bg-accent/10 border-accent/30",
   },
   {
-    title: "National Robotics Championship",
+    title: "Kalpvikas 2.0 Ideathon",
+    position: "2nd Overall",
+    description: "Competing among 300+ registered teams at RV University's Ideathon. This achievement reflects our innovation and teamwork.",
+    date: "October 2025",
+    icon: <Medal className="w-8 h-8" />,
+    color: "text-secondary",
+    bgColor: "bg-secondary/10 border-secondary/30",
+  },
+  {
+    title: "Argonyx '25 Hackathon",
     position: "3rd Place",
-    description: "Bronze medal in national-level robotics competition for maze-solving robot",
-    date: "June 2024",
+    description: "Qualified among 500+ participants in the 15-hour hackathon at RV University, competing across ~110 teams. Reflects our teamwork, endurance, and passion for innovation.",
+    date: "October 2025",
     icon: <Medal className="w-8 h-8" />,
     color: "text-glow-green",
     bgColor: "bg-glow-green/10 border-glow-green/30",
   },
-  {
-    title: "Startup Weekend IoT",
-    position: "Winner",
-    description: "First place for smart home energy management startup concept",
-    date: "April 2024",
-    icon: <Trophy className="w-8 h-8" />,
-    color: "text-accent",
-    bgColor: "bg-accent/10 border-accent/30",
-  },
-  {
-    title: "University Tech Award",
-    position: "Best Club",
-    description: "Recognized as the best technical club of the year for outstanding contributions",
-    date: "March 2024",
-    icon: <Star className="w-8 h-8" />,
-    color: "text-primary",
-    bgColor: "bg-primary/10 border-primary/30",
-  },
-  {
-    title: "Embedded Systems Contest",
-    position: "1st Place",
-    description: "Won state-level embedded systems design competition with wearable health monitor",
-    date: "January 2024",
-    icon: <Trophy className="w-8 h-8" />,
-    color: "text-accent",
-    bgColor: "bg-accent/10 border-accent/30",
-  },
-  {
-    title: "Hackathon XYZ 2023",
-    position: "2nd Place",
-    description: "Runner-up for environmental monitoring system at national hackathon",
-    date: "November 2023",
-    icon: <Medal className="w-8 h-8" />,
-    color: "text-secondary",
-    bgColor: "bg-secondary/10 border-secondary/30",
-  },
 ];
 
 const stats = [
-  { value: "15+", label: "Awards Won" },
-  { value: "8", label: "Hackathon Wins" },
-  { value: "5", label: "National Recognitions" },
-  { value: "3", label: "Best Club Awards" },
+  { value: "4", label: "Major Wins" },
+  { value: "500+", label: "Participants Faced" },
+  { value: "70+", label: "Teams Competed" },
+  { value: "2026", label: "Latest Achievement" },
 ];
 
 const Achievements = () => {

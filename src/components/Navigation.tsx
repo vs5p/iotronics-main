@@ -162,7 +162,7 @@ const Navigation = () => {
 
         {/* Desktop Navigation Items - Slightly right of center */}
         <div className="hidden lg:flex items-center justify-center flex-1 gap-2 px-8 ml-12">
-          {navItems.map((item, index) => (
+          {navItems.filter(item => item.id !== "projects").map((item, index) => (
             <Link key={item.id} to={item.path}>
               <motion.div
                 className="relative group px-4 py-2"
@@ -245,7 +245,7 @@ const Navigation = () => {
             exit={{ opacity: 0, height: 0 }}
           >
             <div className="container mx-auto px-4 py-4 space-y-2">
-              {navItems.map((item, index) => (
+              {navItems.filter(item => item.id !== "projects").map((item, index) => (
                 <Link key={item.id} to={item.path} onClick={() => setMobileMenuOpen(false)}>
                   <motion.div
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${

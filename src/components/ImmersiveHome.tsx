@@ -140,9 +140,8 @@ const IoTCard = ({
    Event Cards — horizontal scroll
    ============================================================ */
 const events = [
-  { name: 'IoT Build Night', date: 'Apr 12, 2025', tag: 'Workshop', tagColor: '#FF6B35' },
-  { name: 'HackIoT 2025', date: 'May 3–4, 2025', tag: 'Hackathon', tagColor: '#00D4FF' },
-  { name: 'Sensors & AI Talk', date: 'May 18, 2025', tag: 'Talk', tagColor: '#FFD700' },
+  { name: "Nirmith'26 Ideathon", date: 'Apr 28, 2026, 9:00 AM IST', tag: 'Ideathon', tagColor: '#FFD700', link: 'https://unstop.com/hackathons/ideathon-nirmith26-nirmith26-nitte-meenakshi-institute-of-technology-nmit-yelahanka-1667936', banner: '/images/ideathon-banner.png' },
+  { name: "Nirmith'26 Hackathon", date: 'Apr 28, 2026, 5:00 PM IST', tag: 'Hackathon', tagColor: '#00D4FF', link: 'https://unstop.com/hackathons/hackathon-hardware-and-software-nirmith26-nirmith26-nitte-meenakshi-institute-of-technology-nmit-yelahanka-1668493', banner: '/images/hackathon-banner.png' },
 ];
 
 /* ============================================================
@@ -331,17 +330,28 @@ const ImmersiveHome = () => {
           </h2>
 
           {/* Horizontal scrolling event cards */}
-          <div className="events-track">
+          <div className="events-track flex justify-center items-center gap-8 mx-auto w-full max-w-6xl">
             {events.map((ev, i) => (
               <motion.div
                 key={i}
-                className="imm-event-card flex-shrink-0"
+                className="imm-event-card flex-shrink-0 relative overflow-hidden"
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
+                {/* Banner background image */}
+                {ev.banner && (
+                  <div
+                    className="absolute inset-0 w-full h-full bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url('${ev.banner}')`,
+                      opacity: 0.3,
+                    }}
+                  />
+                )}
+
                 {/* Decorative top stripe */}
-                <div className="h-1 w-full rounded-t-xl" style={{ background: ev.tagColor }} />
-                <div className="p-6 flex flex-col justify-between h-full">
+                <div className="h-1 w-full rounded-t-xl relative z-10" style={{ background: ev.tagColor }} />
+                <div className="p-6 flex flex-col justify-between h-full relative z-20">
                   <div>
                     <span
                       className="inline-block px-3 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider mb-4"
@@ -355,7 +365,28 @@ const ImmersiveHome = () => {
                     </span>
                     <h3 className="font-orbitron text-xl font-bold text-white mb-2">{ev.name}</h3>
                   </div>
-                  <p className="font-rajdhani text-gray-400 text-sm mt-auto">{ev.date}</p>
+                  <div className="flex flex-col gap-3 mt-auto">
+                    <p className="font-rajdhani text-gray-400 text-sm">{ev.date}</p>
+                    {ev.link && (
+                      <a
+                        href={ev.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-mono font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:opacity-80"
+                        style={{
+                          background: ev.tagColor,
+                          color: '#000',
+                        }}
+                      >
+                        <span>Register on</span>
+                        <img
+                          src="/unstop_logo.svg"
+                          alt="Unstop"
+                          className="h-4 w-auto"
+                        />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
