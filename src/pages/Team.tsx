@@ -18,7 +18,6 @@ gsap.registerPlugin(ScrollTrigger);
 interface TeamMember {
   name: string;
   role: string;
-  specialization?: string;
   avatar: string;
   linkedin?: string;
   github?: string;
@@ -35,7 +34,6 @@ interface Domain {
 }
 
 const domains: Domain[] = [
-
   {
     id: 'admin',
     label: 'ADMINISTRATION',
@@ -50,16 +48,14 @@ const domains: Domain[] = [
       'Member Recruitment',
     ],
     members: [
-      { name: 'Rounak Vyas', role: 'President', specialization: 'Embedded Systems & IoT Architecture', avatar: '/images/Heads/Rounak_Vyas.jpg' },
-      { name: 'Rohit Soni', role: 'Vice President', specialization: 'Software Development & Cloud', avatar: '/images/Heads/Rohit Soni.jpg' },
-      { name: 'Ujwala.P', role: 'Lead', specialization: 'UI/UX Design', avatar: '/images/admin_comm/ujwalaP.jpeg' },
-      { name: 'Lakshmy S', role: 'Co-Lead', specialization: 'Visual Identity', avatar: '/images/admin_comm/Lakshmy S.jpg' },
-      { name: 'Sai Vikas', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/saivikas.jpg' },
-      { name: 'Keerthi V', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/keerthi V.jpeg' },
-      { name: 'Sneha K Binu', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/sneha.jpeg' },
-      { name: 'Siri Patil', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/siripatil.jpeg' },
-      { name: 'Amith Sham', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/Amith Sham.jpg' },
-      { name: 'C.Nevesha Tanya', role: 'member', specialization: 'Visual Identity', avatar: '/images/admin_comm/cnevasha.jpeg' },
+      { name: 'Ujwala.P', role: 'Lead', avatar: '/images/admin_comm/ujwalaP.jpeg' },
+      { name: 'Lakshmy S', role: 'Co-Lead', avatar: '/images/admin_comm/Lakshmy S.jpg' },
+      { name: 'Sai Vikas', role: 'Member', avatar: '/images/admin_comm/saivikas.jpg' },
+      { name: 'Keerthi V', role: 'Member', avatar: '/images/admin_comm/keerthi V.jpeg' },
+      { name: 'Sneha K Binu', role: 'Member', avatar: '/images/admin_comm/sneha.jpeg' },
+      { name: 'Siri Patil', role: 'Member', avatar: '/images/admin_comm/siripatil.jpeg' },
+      { name: 'Amith Sham', role: 'Member', avatar: '/images/admin_comm/Amith Sham.jpg' },
+      { name: 'C.Nevesha Tanya', role: 'Member', avatar: '/images/admin_comm/cnevasha.jpeg' },
     ],
   },
   {
@@ -76,12 +72,12 @@ const domains: Domain[] = [
       'Mobile App Dev',
     ],
     members: [
-      { name: 'Sankalp Vyas', role: 'Lead Developer', specialization: 'Full Stack Development', avatar: '/images/coding/Sankalp.jpg' },
-      { name: 'Disha Gupta', role: 'Backend Developer', specialization: 'APIs & Databases', avatar: '/images/coding/Disha.jpg.jpeg' },
-      { name: 'Karthik G', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Karthik G.jpg' },
-      { name: 'Jayakrishnan R', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Jayakrishnan R.jpg' },
-      { name: 'Sniti Jain', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Sniti Jain.jpg' },
-      { name: 'Manish Omprakash', role: 'Frontend Developer', specialization: 'React & UI/UX', avatar: '/images/coding/Manish.jpg' },
+      { name: 'Sankalp Vyas', role: 'Lead', avatar: '/images/coding/Sankalp.jpg' },
+      { name: 'Disha Gupta', role: 'Member', avatar: '/images/coding/Disha.jpg.jpeg' },
+      { name: 'Karthik G', role: 'Member', avatar: '/images/coding/Karthik G.jpg' },
+      { name: 'Jayakrishnan R', role: 'Member', avatar: '/images/coding/Jayakrishnan R.jpg' },
+      { name: 'Sniti Jain', role: 'Member', avatar: '/images/coding/Sniti Jain.jpg' },
+      { name: 'Manish Omprakash', role: 'Member', avatar: '/images/coding/Manish.jpg' },
     ],
   },
   {
@@ -98,18 +94,18 @@ const domains: Domain[] = [
       '3D Prototyping',
     ],
     members: [
-      { name: 'Tanushri vijay', role: 'Technical Lead', specialization: 'IoT Architecture', avatar: '/images/tech/Tanushri.jpg' },
-      { name: 'Aditya Suhas Satwik', role: 'Hardware Engineer', specialization: 'Embedded Systems', avatar: '/images/tech/Aditya Satwik.jpg' },
-      { name: 'Karan M Bhat', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Karan.jpg' },
-      { name: 'Kavyesh Gujetiya', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/kavyesh gujetiya.jpeg' },
-      { name: 'Ajay C A', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Ajay C A.jpg' },
-      { name: 'Shreya Fouzdar', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Shreya Fouzdar.jpg' },
-      { name: 'Aditya Vijaykumar', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/AdityaVG.jpg' },
-      { name: 'Ananya Manjunath', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Ananya Manjunath.jpg' },
-      { name: 'Amogh D Pinglay', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Amogh Pinglay.jpg' },
-      { name: 'Keertana Kavitha', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Keertana Kavitha.jpg' },
-      { name: 'Madhusudhan M R', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Madhusudhan M R.jpg' },
-      { name: 'Meher Chaitanya', role: 'Research Head', specialization: 'Machine Learning', avatar: '/images/tech/Meher Chaitanya.jpg' },
+      { name: 'Tanushri vijay', role: 'Lead', avatar: '/images/tech/Tanushri.jpg' },
+      { name: 'Aditya Suhas Satwik', role: 'Member', avatar: '/images/tech/Aditya Satwik.jpg' },
+      { name: 'Karan M Bhat', role: 'Member', avatar: '/images/tech/Karan.jpg' },
+      { name: 'Kavyesh Gujetiya', role: 'Member', avatar: '/images/tech/kavyesh gujetiya.jpeg' },
+      { name: 'Ajay C A', role: 'Member', avatar: '/images/tech/Ajay C A.jpg' },
+      { name: 'Shreya Fouzdar', role: 'Member', avatar: '/images/tech/Shreya Fouzdar.jpg' },
+      { name: 'Aditya Vijaykumar', role: 'Member', avatar: '/images/tech/AdityaVG.jpg' },
+      { name: 'Ananya Manjunath', role: 'Member', avatar: '/images/tech/Ananya Manjunath.jpg' },
+      { name: 'Amogh D Pinglay', role: 'Member', avatar: '/images/tech/Amogh Pinglay.jpg' },
+      { name: 'Keertana Kavitha', role: 'Member', avatar: '/images/tech/Keertana Kavitha.jpg' },
+      { name: 'Madhusudhan M R', role: 'Member', avatar: '/images/tech/Madhusudhan M R.jpg' },
+      { name: 'Meher Chaitanya', role: 'Member', avatar: '/images/tech/Meher Chaitanya.jpg' },
     ],
   },
   {
@@ -126,20 +122,20 @@ const domains: Domain[] = [
       'Brand Identity',
     ],
     members: [
-      { name: 'Yashaswini', role: 'PR Head', specialization: 'Lead', avatar: '/images/media/Yashaswini.jpg' },
-      { name: 'Sameeksha Beram', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/sameeksha.jpg' },
-      { name: 'Diddekunta Bhavitha', role: 'member-Dop /Video', specialization: 'Content Strategy', avatar: '/images/media/WhatsApp Image 2026-02-04 at 7.54.25 PM.jpeg' },
-      { name: 'Srinidhi A U', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/20250701_092625~2.jpg' },
-      { name: 'Adit jain', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/adit_jain.jpg' },
-      { name: 'Hardik T', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/Hardik T.jpg' },
-      { name: 'Jyothsna D.M', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/Jyothsna_102091.jpg' },
-      { name: 'Harini Prabagaran', role: 'member-Design', specialization: 'Content Strategy', avatar: '/images/media/Harini.jpg' },
-      { name: 'Umang', role: 'member-Dop/Video', specialization: 'Content Strategy', avatar: '/images/media/Umang.jpg' },
+      { name: 'Yashaswini', role: 'Lead', avatar: '/images/media/Yashaswini.jpg' },
+      { name: 'Sameeksha Beram', role: 'Member', avatar: '/images/media/sameeksha.jpg' },
+      { name: 'Diddekunta Bhavitha', role: 'Member', avatar: '/images/media/WhatsApp Image 2026-02-04 at 7.54.25 PM.jpeg' },
+      { name: 'Srinidhi A U', role: 'Member', avatar: '/images/media/20250701_092625~2.jpg' },
+      { name: 'Adit jain', role: 'Member', avatar: '/images/media/adit_jain.jpg' },
+      { name: 'Hardik T', role: 'Member', avatar: '/images/media/Hardik T.jpg' },
+      { name: 'Jyothsna D.M', role: 'Member', avatar: '/images/media/Jyothsna_102091.jpg' },
+      { name: 'Harini Prabagaran', role: 'Member', avatar: '/images/media/Harini.jpg' },
+      { name: 'Umang', role: 'Member', avatar: '/images/media/Umang.jpg' },
     ],
   },
   {
     id: 'faculty',
-    label: 'FACULTY',
+    label: 'LEADERSHIP & FACULTY',
     tag: 'COORDINATORS',
     icon: <GraduationCap size={32} />,
     color: '#FF6B00',
@@ -150,8 +146,10 @@ const domains: Domain[] = [
       'Project Approvals',
     ],
     members: [
-      { name: 'Ms. Smitha B', role: 'Assistant Professor, EEE Dept', specialization: 'Project Guidance & Mentorship', avatar: '/images/coordinators/WhatsApp Image 2026-01-30 at 3.46.19 PM.jpeg' },
-      { name: 'Ms. Meghana A', role: 'Assistant Professor, EEE Dept', specialization: 'Technical Support & Innovation', avatar: '/images/coordinators/WhatsApp Image 2026-01-28 at 1.46.38 PM.jpeg' },
+      { name: 'Rounak Vyas', role: 'Lead', avatar: '/images/Heads/Rounak_Vyas.jpg' },
+      { name: 'Rohit Soni', role: 'Co-Lead', avatar: '/images/Heads/Rohit Soni.jpg' },
+      { name: 'Ms. Smitha B', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-30 at 3.46.19 PM.jpeg' },
+      { name: 'Ms. Meghana A', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-28 at 1.46.38 PM.jpeg' },
     ],
   },
 ];
@@ -208,17 +206,7 @@ const DomainCard = ({
         >
           {/* ── BACK FACE (idle — black with logo glow) ── */}
           <div className="domain-card-face domain-card-back">
-            <motion.div
-              className="domain-card-glow"
-              animate={{
-                boxShadow: [
-                  '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
-                  '0 0 60px rgba(255,107,0,0.4), inset 0 0 60px rgba(255,107,0,0.1)',
-                  '0 0 30px rgba(255,107,0,0.2), inset 0 0 30px rgba(255,107,0,0.05)',
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            />
+            <div className="domain-card-glow pulse-glow" style={{ opacity: 0.6 }} />
             <div className="domain-card-icon">{domain.icon}</div>
             <span className="domain-card-label">{domain.label}</span>
           </div>
@@ -287,7 +275,7 @@ const MemberCard = ({
         {/* Avatar */}
         <div className={`member-avatar overflow-hidden ${hovered ? 'member-avatar-active' : ''}`}>
           {member.avatar.startsWith('/') ? (
-            <img src={member.avatar} alt={member.name} className="w-full h-full object-cover rounded-full" />
+            <img src={member.avatar} alt={member.name} className="w-full h-full object-cover rounded-full" loading="lazy" />
           ) : (
             <span className="member-avatar-text">{member.avatar}</span>
           )}
@@ -296,9 +284,6 @@ const MemberCard = ({
         {/* Info */}
         <h3 className="member-name" style={{ marginBottom: "2px" }}>{member.name}</h3>
         <p className="member-role" style={{ marginBottom: "4px" }}>{member.role}</p>
-        {member.specialization && (
-          <p className="member-role" style={{ fontSize: "0.75rem", opacity: 0.7, fontFamily: "monospace" }}>{member.specialization}</p>
-        )}
       </motion.div>
 
       {/* Socials — appear on hover */}
@@ -334,7 +319,7 @@ const DomainParticles = () => {
   }));
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block">
       {particles.map((p) => (
         <motion.span
           key={p.id}
@@ -534,13 +519,19 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
 const Team = () => {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const activeDomainData = domains.find((d) => d.id === activeDomain) || null;
+  const scrollPosRef = useRef(0);
 
   const handleSelect = useCallback((id: string) => {
+    scrollPosRef.current = window.scrollY;
     setActiveDomain(id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleBack = useCallback(() => {
     setActiveDomain(null);
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPosRef.current, behavior: 'instant' });
+    }, 50);
   }, []);
 
   return (

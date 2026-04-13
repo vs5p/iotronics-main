@@ -27,15 +27,10 @@ export default defineConfig(({ mode }) => ({
           ],
           "ui-components": [
             "framer-motion",
+            "gsap",
             "@radix-ui/react-dialog",
             "@radix-ui/react-dropdown-menu",
             "@radix-ui/react-accordion",
-          ],
-          "pages": [
-            "./src/pages/Home.tsx",
-            "./src/pages/About.tsx",
-            "./src/pages/Projects.tsx",
-            "./src/pages/Team.tsx",
           ],
         },
         chunkFileNames: "js/[name]-[hash].js",
