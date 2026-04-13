@@ -35,6 +35,25 @@ interface Domain {
 
 const domains: Domain[] = [
   {
+    id: 'faculty',
+    label: 'LEADERSHIP & FACULTY',
+    tag: 'COORDINATORS',
+    icon: <GraduationCap size={32} />,
+    color: '#FF6B00',
+    responsibilities: [
+      'Mentorship & Guidance',
+      'Strategic Planning',
+      'Institutional Support',
+      'Project Approvals',
+    ],
+    members: [
+      { name: 'Rounak Vyas', role: 'Lead', avatar: '/images/Heads/Rounak_Vyas.jpg' },
+      { name: 'Rohit Soni', role: 'Co-Lead', avatar: '/images/Heads/Rohit Soni.jpg' },
+      { name: 'Ms. Smitha B', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-30 at 3.46.19 PM.jpeg' },
+      { name: 'Ms. Meghana A', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-28 at 1.46.38 PM.jpeg' },
+    ],
+  },
+  {
     id: 'admin',
     label: 'ADMINISTRATION',
     tag: 'ADMIN_DEPT',
@@ -131,25 +150,6 @@ const domains: Domain[] = [
       { name: 'Jyothsna D.M', role: 'Member', avatar: '/images/media/Jyothsna_102091.jpg' },
       { name: 'Harini Prabagaran', role: 'Member', avatar: '/images/media/Harini.jpg' },
       { name: 'Umang', role: 'Member', avatar: '/images/media/Umang.jpg' },
-    ],
-  },
-  {
-    id: 'faculty',
-    label: 'LEADERSHIP & FACULTY',
-    tag: 'COORDINATORS',
-    icon: <GraduationCap size={32} />,
-    color: '#FF6B00',
-    responsibilities: [
-      'Mentorship & Guidance',
-      'Strategic Planning',
-      'Institutional Support',
-      'Project Approvals',
-    ],
-    members: [
-      { name: 'Rounak Vyas', role: 'Lead', avatar: '/images/Heads/Rounak_Vyas.jpg' },
-      { name: 'Rohit Soni', role: 'Co-Lead', avatar: '/images/Heads/Rohit Soni.jpg' },
-      { name: 'Ms. Smitha B', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-30 at 3.46.19 PM.jpeg' },
-      { name: 'Ms. Meghana A', role: 'Faculty', avatar: '/images/coordinators/WhatsApp Image 2026-01-28 at 1.46.38 PM.jpeg' },
     ],
   },
 ];
@@ -489,7 +489,7 @@ const DomainDeckContent = ({ onSelect }: { onSelect: (id: string) => void }) => 
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          Hover to explore · Click to meet the team
+          <span className="hidden sm:inline">Hover to explore · </span>Click to meet the team
         </motion.p>
       </div>
 
